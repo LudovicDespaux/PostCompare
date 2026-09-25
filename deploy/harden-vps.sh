@@ -5,11 +5,12 @@
 # - fail2ban + mises à jour de sécurité automatiques
 #
 # Filet de sécurité : si tu ne confirmes pas dans les 5 minutes (depuis une
-# NOUVELLE session SSH), le pare-feu est désactivé et la config SSH restaurée.
+# NOUVELLE session SSH), les configurations UFW et SSH antérieures sont restaurées.
 #
 # Usage (sur le VPS) :
 #   sudo EXTRA_PORTS="8211/udp" bash harden-vps.sh     # EXTRA_PORTS optionnel
-#   puis, depuis une 2e connexion SSH :  sudo touch /root/harden-ok
+#   Tester d’abord une connexion avec PasswordAuthentication=no.
+#   Puis confirmer depuis une 2e connexion avec la commande affichée par le script.
 set -euo pipefail
 
 [[ $EUID -eq 0 ]] || { echo "Lancer avec sudo."; exit 1; }
@@ -17,7 +18,10 @@ set -euo pipefail
 ADMIN_USER="${SUDO_USER:-ubuntu}"
 AUTH_KEYS="$(getent passwd "$ADMIN_USER" | cut -d: -f6)/.ssh/authorized_keys"
 DROPIN=/etc/ssh/sshd_config.d/00-postcompare-hardening.conf
-OK_FLAG=/root/harden-ok
+# Un seul durcissement à la fois, y compris durant la fenêtre de confirmation.
+exec 9>/run/postcompare-hardening.lock
+flock -n 9 || { echo "Un durcissement est déjà en cours."; exit 1; }
+[[ "$ADMIN_USER" != root ]] || { echo "Utiliser sudo depuis un administrateur non root."; exit 1; }
 SSH_PORT="$(sshd -T 2>/dev/null | awk '/^port /{print $2; exit}')"; SSH_PORT="${SSH_PORT:-22}"
 
 echo "== Ports actuellement en écoute (hors boucle locale) =="
@@ -37,16 +41,39 @@ fi
 apt-get update -qq
 DEBIAN_FRONTEND=noninteractive apt-get install -y -qq ufw fail2ban unattended-upgrades
 
-# --- Retour arrière automatique
-rm -f "$OK_FLAG"
-nohup bash -c "
-  sleep 300
-  if [[ ! -f $OK_FLAG ]]; then
-    ufw --force disable
-    rm -f $DROPIN
-    systemctl reload ssh || systemctl reload sshd
-    echo 'harden-vps: pas de confirmation, retour arrière effectué' | systemd-cat -t harden-vps
-  fi" >/dev/null 2>&1 &
+# --- Sauvegarde et retour arrière indépendant de la session SSH
+STATE="$(mktemp -d /root/postcompare-hardening.XXXXXX)"
+chmod 700 "$STATE"
+OK_FLAG="$STATE/confirmed"
+cp -a /etc/ufw "$STATE/ufw"
+cp -a /etc/default/ufw "$STATE/ufw-default"
+if [[ -e "$DROPIN" ]]; then cp -a "$DROPIN" "$STATE/ssh-dropin"; fi
+cat > "$STATE/rollback.sh" <<'ROLLBACK'
+#!/usr/bin/env bash
+set -euo pipefail
+STATE="$(cd -- "$(dirname -- "$0")" && pwd)"
+[[ ! -e "$STATE/confirmed" ]] || exit 0
+DROPIN=/etc/ssh/sshd_config.d/00-postcompare-hardening.conf
+if [[ -e "$STATE/ssh-dropin" ]]; then
+  cp -a "$STATE/ssh-dropin" "$DROPIN"
+else
+  rm -f "$DROPIN"
+fi
+sshd -t
+systemctl reload ssh || systemctl reload sshd
+cp -a "$STATE/ufw/." /etc/ufw/
+cp -a "$STATE/ufw-default" /etc/default/ufw
+if grep -q '^ENABLED=yes' "$STATE/ufw/ufw.conf"; then
+  ufw --force enable
+else
+  ufw --force disable
+fi
+echo 'harden-vps: configuration réseau antérieure restaurée' | systemd-cat -t harden-vps
+ROLLBACK
+chmod 700 "$STATE/rollback.sh"
+# Le processus détaché conserve le verrou jusqu’à la fin du délai.
+nohup bash -c 'sleep 300; bash "$1/rollback.sh"' _ "$STATE" >"$STATE/rollback.log" 2>&1 &
+trap 'bash "$STATE/rollback.sh"' ERR
 
 # --- Pare-feu
 ufw default deny incoming
@@ -89,4 +116,5 @@ sshd -T | grep -Ei '^(passwordauthentication|permitrootlogin|kbdinteractiveauthe
 echo
 echo ">>> Ouvre MAINTENANT une 2e session SSH depuis ton PC. Si elle marche :"
 echo ">>>   sudo touch $OK_FLAG"
-echo ">>> Sinon, dans 5 min tout sera annulé automatiquement."
+echo ">>> Sans confirmation : restauration UFW/SSH dans 5 minutes. Journal : $STATE/rollback.log"
+echo ">>> Les paquets, fail2ban et mises à jour automatiques ne sont pas annulés."
