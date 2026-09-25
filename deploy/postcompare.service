@@ -1,0 +1,30 @@
+[Unit]
+Description=PostCompare demo web application
+After=network.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+WorkingDirectory=/opt/postcompare
+ExecStart=/usr/bin/java -Xms64m -Xmx384m -jar /opt/postcompare/current.jar --server.address=127.0.0.1 --server.port=8080
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=35
+SuccessExitStatus=143
+MemoryMax=512M
+CPUQuota=100%
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

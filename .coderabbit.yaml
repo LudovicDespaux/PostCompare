@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: fr-FR
+reviews:
+  profile: assertive
+  request_changes_workflow: false
+  auto_review:
+    enabled: true
+    drafts: false
+  path_instructions:
+    - path: "backend/**"
+      instructions: >-
+        Vérifier la validation des entrées, les calculs monétaires, la cohérence
+        des limites de poids et de pages et la séparation entre simulation et
+        devis réels. Ce prototype utilise volontairement des prestataires fictifs.
+    - path: "frontend/**"
+      instructions: >-
+        Vérifier l'accessibilité, les erreurs réseau et les états asynchrones,
+        ainsi que la présentation explicite des tarifs fictifs et du périmètre
+        des prix comparés (port seul ou impression avec envoi).
+    - path: "deploy/**"
+      instructions: >-
+        Vérifier les permissions du service, l'exposition réseau, les échecs
+        de déploiement et le retour à la version précédente.
