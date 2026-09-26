@@ -43,7 +43,7 @@ Ce skill accompagne une demande de mise à jour de PostCompare : ce n'est ni un 
 ## Déploiement
 
 1. Vérifier SSH et l'état des services. Relire les scripts. Ne pas lancer `harden-vps.sh` dans une livraison ordinaire : pare-feu et SSH constituent une opération distincte.
-2. Déployer le JAR testé correspondant au code fusionné via `deploy/deploy-vps.sh` dans WSL. Il doit inclure le frontend. Ne pas transférer `.env`, `.git`, clés ou base de données du bot.
+2. Après synchronisation de `main`, noter le SHA fusionné et reconstruire le frontend puis le backend (`npm ci`, `npm run build`, `mvn clean verify`) depuis ce checkout propre. Avant `deploy/deploy-vps.sh`, vérifier que HEAD est toujours ce SHA, que le catalogue et les assets du JAR correspondent au checkout, puis enregistrer le SHA-256 du JAR testé. Ne pas réutiliser un ancien JAR de `target/`. Ne pas transférer `.env`, `.git`, clés ou base de données du bot.
 3. Conserver la version précédente et le retour arrière. Vérifier la santé du backend puis la bonne page via Nginx ; son reload est asynchrone, donc prévoir de courtes tentatives bornées.
 4. Depuis l'extérieur, vérifier page, assets, pays, scénarios de comparaison adaptés et l'inaccessibilité de `/actuator/health`. Vérifier Palworld et comparer les SHA-256 du JAR local et actif.
 5. En cas d'échec, restaurer la dernière version fonctionnelle et diagnostiquer. Arrêter après un échec répété non compris, sans multiplier les changements en production.

@@ -113,6 +113,8 @@ ssh ubuntu@91.134.138.53 'sudo journalctl -u postcompare -n 50 --no-pager'
 
 La publication est **publique et en HTTP**. Aucun document personnel ni compte ne doit être introduit avant HTTPS. `deploy/harden-vps.sh` est une opération d'administration distincte : ne pas la lancer automatiquement lors d'une livraison. Lire ses prérequis, vérifier une connexion SSH par clé indépendante et préserver un accès de secours avant tout durcissement. Un script présent dans Git ne signifie pas qu'il a été appliqué sur le VPS.
 
+Le script de durcissement sauvegarde SSH/UFW et conserve une échéance de confirmation sur disque. Un timer systemd vérifie chaque minute cette échéance, y compris après redémarrage. Il remplace les anciennes règles UFW en gardant un accès SSH temporaire, puis vérifie les paramètres effectifs pour l'administrateur et root. Lancer depuis une session SSH en conservant `SSH_CONNECTION` avec sudo ; si SSH utilise la résolution DNS, renseigner aussi `SSH_CLIENT_HOST` avec le nom du client réellement résolu. La confirmation doit venir d'une deuxième connexion par clé. Les paquets, fail2ban et les mises à jour automatiques ne sont pas annulés par le retour arrière réseau. Les simulations isolées sont exécutables avec `python3 deploy/test-hardening.py` sous Linux ; elles ne modifient aucune configuration de la machine.
+
 ### Alternative Docker
 
 ```sh

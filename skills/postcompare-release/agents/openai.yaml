@@ -1,4 +1,4 @@
 interface:
-  display_name: "PostCompare : publier une mise à jour"
-  short_description: "README, build, revue CodeRabbit et déploiement VPS"
-  default_prompt: "Utilise $postcompare-release pour documenter, tester, faire revoir et déployer les changements de PostCompare."
+  display_name: "PostCompare : publier une mise Ã  jour"
+  short_description: "README, build, revue CodeRabbit et dÃ©ploiement VPS"
+  default_prompt: "Utilise $postcompare-release pour documenter, tester, faire revoir et dÃ©ployer les changements de PostCompare."
