@@ -5,3 +5,4 @@ target/
 .idea/
 *.log
 *.tsbuildinfo
+.vite/

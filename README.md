@@ -1,21 +1,38 @@
 # PostCompare
 
-Un premier prototype de comparateur de courrier : dépôt postal ou impression avec envoi, depuis et vers les pays ISO 3166. Interface française, React + TypeScript, API Java 17 / Spring Boot, déploiement Docker sur VPS.
+Comparateur de courrier en français : affranchissement à déposer soi-même, transport express et impression avec envoi. React/TypeScript côté navigateur, Java 17/Spring Boot côté serveur. Aucun compte, PDF, paiement ou envoi physique n'est géré par l'application.
 
-**Mode démo uniquement.** Les quatre prestataires sont fictifs, ainsi que tous les prix et délais. La présence d'un pays dans le formulaire ne constitue pas une couverture commerciale. Aucun appel à un prestataire réel, paiement, téléversement de PDF ou envoi physique n'est implémenté.
+## État de cette mise à jour
 
-## Démarrer en local
+Les quatre fournisseurs fictifs du prototype ont été remplacés par un **catalogue statique de tarifs publiés**, avec sources et dates. Les résultats restent des **estimations**, pas des devis obtenus en temps réel. Une source renseignée ne garantit pas que le prix est encore applicable à une adresse, un format ou une option précise.
 
-Prérequis : Java **JDK** 17+, Maven 3.9+, Node 22.12+ (Node 24 recommandé).
+- 39 opérateurs postaux dans 39 pays, plus DHL Express au départ de France.
+- 4 opérateurs en ligne dans `backend/src/main/resources/tariffs.json` : LetterStream, Japan Post Webレター, Poste Italiane Postaonline et PostMyDoc.
+- 2 calculs spécifiques dans `PrintAndMailProvider` : Merci Facteur et e-lettre rouge.
+- Résultats en euros avec prix/devise d'origine, périmètre du prix, régime fiscal déclaré, source et date d'effet renseignée.
+- Filtres dépôt postal / envoi en ligne / express, tri par montant ou délai et exigence facultative de suivi.
 
-Terminal 1 :
+La couverture est partielle : certains pays n'ont que du national, un palier ou certaines zones internationales. Pour un pays de départ sans grille postale, les services d'impression restent disponibles selon leur destination réelle.
+
+### Limites importantes du calcul
+
+- Le catalogue indique une collecte au 25 septembre 2026 et des taux de change au 24 septembre 2026. BCE principalement ; source complémentaire dans `fx.secondarySource` pour TWD et ARS. Aucune mise à jour automatique.
+- Certains tarifs sont HT ou excluent des suppléments (notamment carburant DHL). Le classement porte sur les **montants affichés**, qui ne constituent pas tous un total TTC comparable.
+- Les dimensions, épaisseurs, conditions de dépôt, restrictions locales et suppléments ne sont pas complètement modélisés. Certaines grilles anciennes restent identifiées comme telles dans les notes. L'ensemble des 39 pays n'a pas été recertifié lors de ce build.
+- Merci Facteur combine les frais publiés avec un affranchissement estimé au tarif La Poste. Les suppléments suivi distinguent France, UE et reste du monde. Les tarifs couleur non renseignés sont exclus au lieu d'être considérés gratuits.
+- LetterStream est volontairement limité à une page monochrome : son supplément verso et les paliers d'affranchissement multipage ne sont pas encore complètement modélisés. La [page du prestataire](https://www.letterstream.com/pricing/) distingue ces coûts.
+- Sans exigence de suivi, les offres avec et sans suivi sont proposées. Avec exigence de suivi, seules les offres suivies restent éligibles.
+
+## Démarrer en développement
+
+Prérequis : JDK 17+, Maven 3.9+, Node 22.12+ (Node 24 recommandé).
+
+Deux terminaux :
 
 ```sh
 cd backend
 mvn spring-boot:run
 ```
-
-Terminal 2 :
 
 ```sh
 cd frontend
@@ -23,25 +40,11 @@ npm ci
 npm run dev
 ```
 
-Ouvrir http://localhost:5173. Vite relaie `/api` vers le backend sur le port 8080. Aucune clé API nécessaire. Sans backend, le formulaire indique l'échec du chargement des pays et propose de réessayer.
+Ouvrir http://localhost:5173. Vite relaie `/api` vers `127.0.0.1:8080`. Aucune clé API nécessaire. Sous Windows, utiliser `npm.cmd` si PowerShell bloque `npm.ps1`. Le projet utilise la distribution WebAssembly officielle de Rollup pour éviter les restrictions Windows sur son module natif.
 
-## Docker / VPS OVH
+## Construire et tester une livraison
 
-### Installation actuellement utilisée sur le VPS
-
-La démo est publiée sur **http://91.134.138.53** avec Nginx et le service systemd
-`postcompare`. Java écoute uniquement sur `127.0.0.1:8080`. Le service fonctionne
-avec un utilisateur dynamique sans privilèges, une limite mémoire de 512 Mo et
-un redémarrage automatique. Palworld reste un service indépendant.
-
-Cette URL est en HTTP. Aucun document, adresse complète, compte ou paiement ne
-doit être ajouté avant la configuration HTTPS avec un domaine.
-
-Les fichiers de déploiement sont dans `deploy/` : `nginx.conf`,
-`postcompare.service`, `activate-release.sh` et `deploy-vps.sh`.
-Le VPS doit disposer de `openjdk-17-jre-headless`, `nginx` et `curl`.
-
-Pour une nouvelle version, compiler le frontend **avant** le backend :
+Compiler le frontend **avant** le backend : Maven intègre `frontend/dist` au JAR et un test vérifie sa présence.
 
 ```sh
 cd frontend
@@ -49,44 +52,19 @@ npm ci
 npm run build
 cd ../backend
 mvn clean verify
-cd ..
-bash deploy/deploy-vps.sh
 ```
 
-Sous Windows, compiler avec Node et Maven Windows puis lancer le dernier script
-dans WSL, où la connexion SSH est déjà configurée. Ne pas partager un même
-`node_modules` entre Node Windows et Node Linux. Arrêter le backend local avant
-le build si son processus Java verrouille le JAR.
+Artefact : `backend/target/postcompare-0.1.0.jar`. Les tests couvrent les routes, paliers de poids, conversion, zones, suivi, services locaux, options couleur, validation des requêtes et du catalogue, et présence du frontend. La CI vérifie aussi l'image Docker.
 
-Le script transfère seulement le JAR compilé et les configurations de déploiement.
-Les versions sont conservées dans `/opt/postcompare/releases`, et `current.jar`
-pointe vers la version active. La santé du backend puis la page via Nginx sont
-vérifiées ; un échec déclenche le retour à la version précédente et restaure les
-configurations sauvegardées. Aucun secret SSH n'est inclus dans le dépôt.
-
-```sh
-ssh ubuntu@91.134.138.53 'systemctl is-active postcompare nginx palworld-bot'
-ssh ubuntu@91.134.138.53 'sudo journalctl -u postcompare -n 50 --no-pager'
-```
-
-### Alternative Docker
-
-```sh
-docker compose up -d --build
-curl http://127.0.0.1:8080/actuator/health
-```
-
-Le build inclut le frontend dans le JAR Spring Boot : un seul service, une seule origine, aucune base de données. Le service est accessible sur la boucle locale du VPS. En local, ouvrir http://localhost:8080.
-
-Pour le publier : installer Docker Engine avec Compose sur le VPS, y cloner le dépôt puis exécuter la commande ci-dessus. Installer Caddy sur **l'hôte**, remplacer le domaine d'exemple dans `deploy/Caddyfile`, configurer le DNS vers le VPS puis utiliser ce fichier comme configuration Caddy. Autoriser les ports 80/443 dans les pare-feu OVH et système et recharger Caddy ; le certificat HTTPS sera géré par Caddy. Ne pas exposer directement le port 8080. Le Caddyfile fourni suppose que Caddy s'exécute sur l'hôte, pas dans un conteneur.
-
-Prévoir environ 2 Go de RAM pour compiler sur le VPS ; le service est limité à 512 Mo au runtime. Pas de déploiement automatique ni de secrets enregistrés. Les polices Google Fonts sont téléchargées par le navigateur, avec polices système en repli.
+Ne pas partager `node_modules` entre Node Windows et Node Linux. Arrêter uniquement le serveur local concerné si Vite verrouille esbuild ou Java verrouille le JAR avant un rebuild.
 
 ## API
 
-`GET /api/countries` : pays et libellés français.
-
-`POST /api/quotes` :
+| Route | Réponse |
+|---|---|
+| `GET /api/countries` | Codes/libellés de pays ; `postalRates` indique une grille au départ du pays, sans garantir toutes les destinations. |
+| `GET /api/carriers` | Les 44 opérateurs du fichier JSON et leurs sources ; les deux calculs spécifiques sont décrits ci-dessus. |
+| `POST /api/quotes` | `mode: PUBLIC_RATES`, notice et liste d'offres triées par montant EUR puis identifiant. |
 
 ```json
 {
@@ -100,49 +78,60 @@ Prévoir environ 2 Go de RAM pour compiler sur le VPS ; le service est limité �
 }
 ```
 
-Réponse : `mode`, `notice`, `quotes` classées par prix croissant en EUR. Pages : 1–50 ; poids : 1–500 g. Les offres postales fictives sont limitées à 250 g. Pour l'impression, le poids est calculé sur les feuilles (5 g) et l'enveloppe (6 g). Le dépôt postal inclut uniquement le port, les offres numériques incluent impression, enveloppe et port : ce périmètre est affiché. La sélection du suivi exclut les fournisseurs qui ne le supportent pas. Les montants sont calculés en centimes puis exposés en décimal, sans calcul monétaire en flottant côté serveur.
+Pages : entier 1–50 ; poids avec enveloppe : entier 1–2000 g. Le poids fourni sert au dépôt postal ; les services d'impression utilisent leurs unités (page/feuille) et limites. Pour Merci Facteur : environ 5 g par feuille, enveloppe de 6 g ou 15 g au-delà de cinq feuilles. `tracking: true` est une exigence, `false` ne masque pas les offres suivies. Pays inconnus, champs manquants ou nombres invalides : HTTP 400. Route sans offre couverte : HTTP 200 avec `quotes: []`.
 
-## Vérification
+Chaque offre expose `id`, `provider`, `service`, `method`, `price`, `currency`, `originalPrice`, `originalCurrency`, `minDays`, `maxDays`, `tracking`, `description`, `priceScope`, `priceBasis`, `source` et `validFrom`. Les montants serveur utilisent `BigDecimal` ; la conversion EUR est arrondie à deux décimales.
 
-Construire d'abord le frontend : un test vérifie qu'il est inclus dans le JAR.
+## Maintenir le catalogue
+
+Modifier `backend/src/main/resources/tariffs.json` :
+
+- `groups` : codes ISO et références `@EU`, `@EUROPE`, etc. Les cycles sont rejetés.
+- `fx.perEuro` : unités de devise pour un euro, taux strictement positifs ; EUR doit valoir 1.
+- `POSTAL` / `EXPRESS` : origines, services `DOMESTIC` ou `INTERNATIONAL`, zones et tranches `[poids maximal inclus en g, prix]`.
+- `ONLINE` : pays d'impression `postsFrom`, unité `PAGE` ou `SHEET`, `included`, `max`, puis `base + extra × max(0, unités − included)` ; paire `colorBase`/`colorExtra` pour la couleur.
+- Les zones sont examinées dans l'ordre ; placer les zones spécifiques avant `*`. `exclude` retire des destinations.
+
+Le chargement vérifie dates, sources HTTPS, pays/références, taux, identifiants, limites, délais, prix et tranches croissantes. Une grille incohérente doit empêcher le démarrage. Vérifier la source et ajouter un test de palier/zone lors d'une modification tarifaire. Les tarifs e-lettre rouge et Merci Facteur sont encore dans `PrintAndMailProvider` et doivent être maintenus séparément.
+
+## Déploiement VPS OVH
+
+Site : **http://91.134.138.53**. Architecture actuelle : Nginx → `127.0.0.1:8080` → JAR comprenant le frontend. Service systemd `postcompare`, utilisateur dynamique sans privilèges, limite de 512 Mio et redémarrage automatique. Palworld est indépendant.
+
+Prérequis VPS : `openjdk-17-jre-headless`, `nginx`, `curl`. Après un build/test réussi, depuis WSL Ubuntu-26.04 où SSH est configuré :
 
 ```sh
-cd backend
-mvn verify
+bash deploy/deploy-vps.sh
 ```
+
+Le script transfère le JAR et les configurations, garde les versions dans `/opt/postcompare/releases`, met à jour le lien `current.jar`, puis vérifie la santé et la page via Nginx. Un échec déclenche le retour à la version précédente. Ne pas transférer de secrets, de fichiers `.env` ou de données Palworld.
 
 ```sh
-cd frontend
-npm ci
-npm run build
+ssh ubuntu@91.134.138.53 'systemctl is-active postcompare nginx palworld-bot'
+ssh ubuntu@91.134.138.53 'sudo journalctl -u postcompare -n 50 --no-pager'
 ```
 
-La CI vérifie l'API, TypeScript, le build frontend et l'image Docker. Les cinq tests couvrent classement/prix, exclusion des offres sans suivi, validation des requêtes, rejet des pages décimales et présence du frontend empaqueté.
+La publication est **publique et en HTTP**. Aucun document personnel ni compte ne doit être introduit avant HTTPS. `deploy/harden-vps.sh` est une opération d'administration distincte : ne pas la lancer automatiquement lors d'une livraison. Lire ses prérequis, vérifier une connexion SSH par clé indépendante et préserver un accès de secours avant tout durcissement. Un script présent dans Git ne signifie pas qu'il a été appliqué sur le VPS.
 
-## Revue CodeRabbit
+Le script de durcissement sauvegarde SSH/UFW et conserve une échéance de confirmation sur disque. Un timer systemd vérifie chaque minute cette échéance, y compris après redémarrage. Il remplace les anciennes règles UFW en gardant un accès SSH temporaire, puis vérifie les paramètres effectifs pour l'administrateur et root. Lancer depuis une session SSH en conservant `SSH_CONNECTION` avec sudo ; si SSH utilise la résolution DNS, renseigner aussi `SSH_CLIENT_HOST` avec le nom du client réellement résolu. La confirmation doit venir d'une deuxième connexion par clé. Les paquets, fail2ban et les mises à jour automatiques ne sont pas annulés par le retour arrière réseau. Les simulations isolées sont exécutables avec `python3 deploy/test-hardening.py` sous Linux ; elles ne modifient aucune configuration de la machine.
 
-Les revues de pull requests sont gratuites pour les dépôts publics selon
-[l'offre open source](https://www.coderabbit.ai/oss). Installer
-[l'application GitHub CodeRabbit](https://github.com/apps/coderabbitai) en limitant
-son accès à ce dépôt, puis ouvrir une pull request contenant les modifications.
-La configuration `.coderabbit.yaml` demande une revue en français, avec attention
-à la validation, aux prix, aux états de l'interface et au déploiement.
+### Alternative Docker
 
-Pour relancer une revue de l'ensemble des changements d'une PR, y commenter
-`@coderabbitai full review`. Cela concerne toute la PR, pas automatiquement tous
-les fichiers inchangés du dépôt. Pour la revue initiale, conserver le commit initial
-comme base et soumettre tout le prototype dans une première PR. Ne pas confondre
-cette revue avec un audit de sécurité exhaustif ; les scans complets proposés par
-CodeRabbit peuvent avoir une tarification distincte.
+```sh
+docker compose up -d --build
+curl http://127.0.0.1:8080/actuator/health
+```
 
-## Passer aux vrais tarifs
+Le port 8080 est lié à la boucle locale. `deploy/Caddyfile` fournit une alternative avec Caddy installé sur l'hôte et un domaine à remplacer. Ne pas faire écouter Caddy et Nginx simultanément sur le même port. Prévoir environ 2 Go pour le build et 512 Mo pour le service.
 
-1. Choisir un prestataire pilote et vérifier sa documentation officielle, l'accès sandbox, les pays réellement couverts et les conditions d'utilisation des devis. Les capacités citées dans le brainstorming restent à vérifier.
-2. Implémenter `MailProvider` et remplacer les fournisseurs fictifs dans `QuoteController` par des adaptateurs injectés. Conserver les clés uniquement côté serveur, via variables d'environnement.
-3. Étendre le modèle avec taxes, devise d'origine, conversion datée, horodatage et expiration du devis, couverture, adresses nécessaires et délais de réponse. Gérer indépendamment timeouts et erreurs de chaque prestataire.
-4. Autoriser les comparaisons réelles uniquement pour les routes supportées. Ne pas mélanger simulations et devis réels dans le classement.
-5. Ajouter un parcours PDF/adresse/paiement seulement après le fonctionnement des devis sandbox ; prévoir alors stockage privé temporaire, suppression, consentement et idempotence de l'envoi.
+## Cycle des mises à jour et CodeRabbit
 
-Le MVP actuel ne collecte ni adresse complète ni document et ne persiste aucune donnée. Aucun compte utilisateur ou paiement n'est nécessaire pour tester l'idée.
+Le skill personnel **`$postcompare-release`**, versionné dans `skills/postcompare-release`, exécute : bilan des changements → README → build/tests → PR → examen CodeRabbit → corrections → fusion → déploiement → vérification publique. Exemple : « Utilise $postcompare-release pour publier mes changements. » Il se sélectionne lors d'une demande de mise à jour, sans surveiller automatiquement le disque.
 
-Licence : voir [LICENSE](LICENSE).
+CodeRabbit est installé sur GitHub ; `.coderabbit.yaml` demande une revue en français. Une nouvelle PR contient le diff depuis `main`. Attendre la revue et les contrôles du dernier commit avant fusion. Si besoin, commenter une fois `@coderabbitai full review` ; la commande revoit la PR, pas tous les fichiers inchangés. Un accusé de réception n'est pas un rapport terminé.
+
+## Prochaines étapes
+
+Affiner les formats et frais manquants, automatiser le rafraîchissement des sources avec validation, puis brancher de vrais devis prestataires. Un futur parcours PDF/adresse/paiement nécessitera HTTPS, stockage privé temporaire, suppression et protection contre les doubles envois. L'application actuelle ne persiste aucune donnée utilisateur.
+
+Licence : [GPL-3.0](LICENSE).
