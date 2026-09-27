@@ -91,7 +91,7 @@ fi
                 if scenario in ('unhealthy', 'recovered', 'restart-failed', 'wrong-rollback-revision', 'legacy'):
                     self.assertEqual(calls.read_text().count('restart postcompare'), 2)
                     expected_message = ('Previous JAR is not healthy' if scenario in ('unhealthy', 'wrong-rollback-revision')
-                                        else 'Previous legacy JAR healthy' if scenario == 'legacy' else 'Previous JAR healthy')
+                                        else 'legacy rollback revision cannot be verified' if scenario == 'legacy' else 'Previous JAR healthy')
                     self.assertIn(expected_message, result.stderr.decode())
                     if scenario == 'wrong-rollback-revision':
                         self.assertEqual(served.read_text(), REVISION)

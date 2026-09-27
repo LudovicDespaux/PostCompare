@@ -42,12 +42,6 @@ with zipfile.ZipFile(sys.argv[1]) as jar:
         print('')  # The initial demo predates build metadata.
 PY
 )
-previous_index=$(python3 - "$previous" <<'PY'
-import hashlib, sys, zipfile
-with zipfile.ZipFile(sys.argv[1]) as jar:
-    print(hashlib.sha256(jar.read('BOOT-INF/classes/static/index.html')).hexdigest())
-PY
-)
 release="$base/releases/$(date -u +%Y%m%dT%H%M%SZ)-$revision.jar"
 [[ ! -e "$release" ]] || { echo 'Release already exists' >&2; exit 1; }
 install -m 644 "$incoming" "$release"
@@ -69,8 +63,8 @@ rollback() {
           echo 'Previous JAR healthy; revision verified' >&2
           return "$failure"
         fi
-      elif [[ $(curl --fail --silent --max-time 5 http://127.0.0.1:8080/ | sha256sum | cut -d ' ' -f 1) == "$previous_index" ]]; then
-        echo 'Previous legacy JAR healthy; page verified (no revision metadata)' >&2
+      else
+        echo 'Service is healthy, but legacy rollback revision cannot be verified: no build metadata' >&2
         return "$failure"
       fi
     fi
