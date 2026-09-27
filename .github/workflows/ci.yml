@@ -36,3 +36,6 @@ jobs:
     with:
       artifact-file: postcompare-0.1.0.jar
       public-url: http://91.134.138.53
+    # Required for environment secrets on current runners: actions/runner#4453.
+    # Production remains restricted to main; keep unrelated secrets out of this repo.
+    secrets: inherit
