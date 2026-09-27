@@ -2,5 +2,7 @@ package com.postcompare;
 
 import java.math.BigDecimal;
 
-public record Quote(String id, String provider, String method, BigDecimal price, String currency,
-                    int minDays, int maxDays, boolean tracking, String description, String priceScope) {}
+/** price is converted to EUR; originalPrice/originalCurrency is what the carrier publishes. */
+public record Quote(String id, String provider, String service, String method, BigDecimal price, String currency,
+                    BigDecimal originalPrice, String originalCurrency, int minDays, int maxDays, boolean tracking,
+                    String description, String priceScope, String priceBasis, String source, String validFrom) {}

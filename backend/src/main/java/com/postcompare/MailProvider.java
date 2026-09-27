@@ -1,8 +1,8 @@
 package com.postcompare;
 
-import java.util.Optional;
+import java.util.List;
 
-/** A real adapter must return a normalized total, or no quote if the route is unsupported. */
+/** Returns normalized quotes for a letter, or an empty list if the route is not covered. */
 public interface MailProvider {
-    Optional<Quote> quote(QuoteRequest request);
+    List<Quote> quotes(QuoteRequest request);
 }

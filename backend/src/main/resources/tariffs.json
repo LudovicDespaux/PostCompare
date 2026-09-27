@@ -1,0 +1,2910 @@
+{
+ "collectedOn": "2026-09-25",
+ "fx": {
+  "date": "2026-09-24",
+  "source": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+  "perEuro": {
+   "EUR": 1,
+   "USD": 1.1367,
+   "GBP": 0.85986,
+   "CHF": 0.9409,
+   "SEK": 11.2645,
+   "CZK": 24.399,
+   "RON": 5.2779,
+   "CAD": 1.6047,
+   "AUD": 1.6177,
+   "JPY": 180.57,
+   "DKK": 7.4756,
+   "NOK": 10.7895,
+   "PLN": 4.3823,
+   "HUF": 366.15,
+   "TRY": 55.5332,
+   "NZD": 2.0049,
+   "SGD": 1.4549,
+   "INR": 109.0775,
+   "KRW": 1555.69,
+   "HKD": 8.9148,
+   "THB": 38.057,
+   "BRL": 5.889,
+   "MXN": 19.9878,
+   "ZAR": 18.6836,
+   "TWD": 36.17264,
+   "ARS": 1728.429443
+  },
+  "secondarySource": "https://open.er-api.com/v6/latest/EUR (TWD, ARS, 2026-09-25)"
+ },
+ "groups": {
+  "EU": ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE"],
+  "EUROPE_NON_EU": ["AD", "AL", "AM", "AX", "AZ", "BA", "BY", "CH", "FO", "GB", "GE", "GG", "GI", "GL", "IM", "IS", "JE", "LI", "MC", "MD", "ME", "MK", "NO", "RS", "RU", "SJ", "SM", "TR", "UA", "VA"],
+  "EUROPE": ["@EU", "@EUROPE_NON_EU"],
+  "MEDITERRANEAN": ["DZ", "EG", "LY", "MA", "TN", "IL", "LB", "SY", "PS"],
+  "OCEANIA": ["AU", "NZ", "FJ", "PG", "SB", "VU", "NC", "PF", "WS", "TO", "KI", "TV", "NR", "MH", "FM", "PW", "CK", "NU", "WF", "AS", "GU", "MP", "PN", "TK", "NF"],
+  "ASIA": ["AF", "BD", "BT", "BN", "KH", "CN", "HK", "IN", "ID", "JP", "KZ", "KG", "LA", "MO", "MY", "MV", "MN", "MM", "NP", "KP", "KR", "PK", "PH", "SG", "LK", "TW", "TJ", "TH", "TL", "TM", "UZ", "VN"],
+  "MIDDLE_EAST": ["AE", "BH", "IQ", "IR", "IL", "JO", "KW", "LB", "OM", "QA", "SA", "SY", "YE", "PS"],
+  "SOUTH_AMERICA": ["AR", "BO", "BR", "CL", "CO", "EC", "GY", "PY", "PE", "SR", "UY", "VE", "FK", "GF"],
+  "AMERICAS_OTHER": ["US", "CA", "MX", "GT", "BZ", "SV", "HN", "NI", "CR", "PA", "CU", "DO", "HT", "JM", "BS", "BB", "TT", "PR", "AG", "DM", "GD", "KN", "LC", "VC", "AW", "CW", "BM", "KY", "TC", "VG", "VI", "AI", "MS", "BL", "MF", "SX", "BQ", "PM"],
+  "SOUTHEAST_ASIA": ["BN", "KH", "ID", "LA", "MY", "MM", "PH", "SG", "TH", "TL", "VN", "MN", "BD"],
+  "SOUTH_PACIFIC": ["AU", "FJ", "PG", "SB", "VU", "NC", "PF", "WS", "TO", "KI", "TV", "NR", "MH", "FM", "PW", "CK", "NU", "WF", "AS", "GU", "MP", "PN", "TK", "NF"]
+ },
+ "carriers": [
+  {
+   "id": "laposte",
+   "name": "La Poste",
+   "type": "POSTAL",
+   "origins": ["FR"],
+   "currency": "EUR",
+   "priceBasis": "TTC",
+   "source": "https://www.laposte.fr/tarifs-postaux-etranger",
+   "validFrom": "2026-01-01",
+   "services": [
+    {
+     "id": "lettre-verte",
+     "name": "Lettre verte",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 4,
+     "zones": [
+      {
+       "name": "France",
+       "countries": ["*"],
+       "rates": [[20, 1.52], [100, 3.1], [250, 5.24], [500, 7.41], [1000, 9.29], [2000, 11.14]]
+      }
+     ]
+    },
+    {
+     "id": "services-plus",
+     "name": "Lettre Services Plus (suivie)",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "minDays": 2,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "France",
+       "countries": ["*"],
+       "rates": [[20, 3.47], [100, 4.57], [250, 5.78], [500, 8.1], [1000, 10.35], [2000, 12.01]]
+      }
+     ]
+    },
+    {
+     "id": "r1",
+     "name": "Lettre recommandée R1",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 3,
+     "maxDays": 4,
+     "zones": [
+      {
+       "name": "France",
+       "countries": ["*"],
+       "rates": [[20, 6.11], [50, 6.98], [100, 7.88], [250, 9.63], [500, 11.32], [1000, 13.02], [2000, 15.42]]
+      }
+     ]
+    },
+    {
+     "id": "internationale",
+     "name": "Lettre internationale",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Union européenne",
+       "countries": ["@EU"],
+       "minDays": 2,
+       "maxDays": 5,
+       "rates": [[20, 2.25], [100, 4.85], [250, 11.65], [500, 16.6], [2000, 31.7]]
+      },
+      {
+       "name": "Monde",
+       "countries": ["*"],
+       "minDays": 4,
+       "maxDays": 15,
+       "rates": [[20, 2.25], [100, 4.85], [250, 11.65], [500, 16.6], [2000, 31.7]]
+      }
+     ]
+    },
+    {
+     "id": "suivie-internationale",
+     "name": "Lettre suivie internationale",
+     "scope": "INTERNATIONAL",
+     "tracking": true,
+     "zones": [
+      {
+       "name": "Union européenne",
+       "countries": ["@EU"],
+       "minDays": 2,
+       "maxDays": 5,
+       "rates": [[20, 5.05], [100, 7.65], [250, 14.45], [500, 19.4], [2000, 34.5]]
+      },
+      {
+       "name": "Monde",
+       "countries": ["*"],
+       "minDays": 4,
+       "maxDays": 15,
+       "rates": [[20, 5.05], [100, 7.65], [250, 14.45], [500, 19.4], [2000, 34.5]]
+      }
+     ]
+    },
+    {
+     "id": "recommandee-internationale",
+     "name": "Lettre recommandée internationale R1",
+     "scope": "INTERNATIONAL",
+     "tracking": true,
+     "registered": true,
+     "zones": [
+      {
+       "name": "Union européenne",
+       "countries": ["@EU"],
+       "minDays": 2,
+       "maxDays": 6,
+       "rates": [[20, 7.2], [100, 9.8], [250, 16.6], [500, 21.55], [2000, 36.65]]
+      },
+      {
+       "name": "Monde",
+       "countries": ["*"],
+       "minDays": 4,
+       "maxDays": 15,
+       "rates": [[20, 7.2], [100, 9.8], [250, 16.6], [500, 21.55], [2000, 36.65]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "deutschepost",
+   "name": "Deutsche Post",
+   "type": "POSTAL",
+   "origins": ["DE"],
+   "currency": "EUR",
+   "priceBasis": "exonéré de TVA",
+   "source": "https://www.deutschepost.de/de/b/briefe-ins-ausland.html",
+   "validFrom": "2026-01-01",
+   "services": [
+    {
+     "id": "brief",
+     "name": "Brief",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "Allemagne",
+       "countries": ["*"],
+       "rates": [[20, 0.95], [50, 1.1], [500, 1.8], [1000, 2.9]]
+      }
+     ]
+    },
+    {
+     "id": "einschreiben",
+     "name": "Einschreiben Einwurf",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 2,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "Allemagne",
+       "countries": ["*"],
+       "rates": [[20, 3.3], [50, 3.45], [500, 4.15], [1000, 5.25]]
+      }
+     ]
+    },
+    {
+     "id": "brief-international",
+     "name": "Brief International",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 3,
+       "maxDays": 7,
+       "rates": [[20, 1.25], [50, 1.8], [500, 3.3], [1000, 6.5], [2000, 17.0]]
+      },
+      {
+       "name": "Monde",
+       "countries": ["*"],
+       "minDays": 5,
+       "maxDays": 15,
+       "rates": [[20, 1.25], [50, 1.8], [500, 3.3], [1000, 6.5], [2000, 17.0]]
+      }
+     ]
+    },
+    {
+     "id": "einschreiben-international",
+     "name": "Einschreiben International",
+     "scope": "INTERNATIONAL",
+     "tracking": true,
+     "registered": true,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 3,
+       "maxDays": 7,
+       "rates": [[20, 4.95], [50, 5.5], [500, 7.0], [1000, 10.2], [2000, 20.7]]
+      },
+      {
+       "name": "Monde",
+       "countries": ["*"],
+       "minDays": 5,
+       "maxDays": 15,
+       "rates": [[20, 4.95], [50, 5.5], [500, 7.0], [1000, 10.2], [2000, 20.7]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "royalmail",
+   "name": "Royal Mail",
+   "type": "POSTAL",
+   "origins": ["GB"],
+   "currency": "GBP",
+   "priceBasis": "exonéré de TVA",
+   "source": "https://www.royalmail.com/prices2026",
+   "validFrom": "2026-04-07",
+   "note": "Au-delà de 100 g, tarif « Large Letter » (enveloppe A4 à plat).",
+   "services": [
+    {
+     "id": "second-class",
+     "name": "2nd Class",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "Royaume-Uni",
+       "countries": ["*"],
+       "rates": [[100, 0.91], [250, 1.9], [500, 2.4], [750, 2.7]]
+      }
+     ]
+    },
+    {
+     "id": "first-class",
+     "name": "1st Class",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "Royaume-Uni",
+       "countries": ["*"],
+       "rates": [[100, 1.8], [750, 3.6]]
+      }
+     ]
+    },
+    {
+     "id": "international-standard",
+     "name": "International Standard",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 3,
+       "maxDays": 5,
+       "rates": [[100, 3.6], [250, 6.15], [500, 7.65], [750, 10.25]]
+      },
+      {
+       "name": "World Zone 3",
+       "countries": ["US"],
+       "minDays": 5,
+       "maxDays": 7,
+       "rates": [[100, 3.6], [250, 8.5], [500, 12.4], [750, 19.85]]
+      },
+      {
+       "name": "World Zone 2",
+       "countries": ["@OCEANIA"],
+       "minDays": 5,
+       "maxDays": 7,
+       "rates": [[100, 3.6], [250, 9.55], [500, 13.9], [750, 19.55]]
+      },
+      {
+       "name": "World Zone 1",
+       "countries": ["*"],
+       "minDays": 5,
+       "maxDays": 7,
+       "rates": [[100, 3.6], [250, 8.15], [500, 11.45], [750, 19.6]]
+      }
+     ]
+    },
+    {
+     "id": "international-tracked",
+     "name": "International Tracked",
+     "scope": "INTERNATIONAL",
+     "tracking": true,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 3,
+       "maxDays": 5,
+       "rates": [[100, 9.95], [250, 10.75], [500, 12.15]]
+      },
+      {
+       "name": "World Zone 2",
+       "countries": ["@OCEANIA"],
+       "minDays": 5,
+       "maxDays": 7,
+       "rates": [[100, 11.95], [250, 14.9], [500, 16.55]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "posteitaliane",
+   "name": "Poste Italiane",
+   "type": "POSTAL",
+   "origins": ["IT"],
+   "currency": "EUR",
+   "priceBasis": "TTC",
+   "source": "https://www.media.poste.it/93dc336c-6a17-4111-ac4c-81a8b074489e/web/prodotti-servizio-universale-listino",
+   "validFrom": "2026-05-01",
+   "services": [
+    {
+     "id": "posta-ordinaria",
+     "name": "Posta Ordinaria",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 4,
+     "maxDays": 6,
+     "zones": [
+      {
+       "name": "Italie",
+       "countries": ["*"],
+       "rates": [[20, 1.3], [50, 2.9], [100, 2.95], [250, 4.25], [350, 5.4], [1000, 5.85], [2000, 7.05]]
+      }
+     ]
+    },
+    {
+     "id": "raccomandata",
+     "name": "Raccomandata",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 4,
+     "maxDays": 6,
+     "zones": [
+      {
+       "name": "Italie",
+       "countries": ["*"],
+       "rates": [[20, 6.0], [50, 7.75], [100, 8.35], [250, 9.0], [350, 10.05], [1000, 12.3], [2000, 16.45]]
+      }
+     ]
+    },
+    {
+     "id": "postamail-internazionale",
+     "name": "Postamail Internazionale",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Zona 1 (Europe et Méditerranée)",
+       "countries": ["@EUROPE", "@MEDITERRANEAN"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[20, 1.35], [50, 3.3], [100, 4.35], [250, 6.35], [350, 7.25], [1000, 9.15], [2000, 14.5]]
+      },
+      {
+       "name": "Zona 3 (Océanie)",
+       "countries": ["@OCEANIA"],
+       "minDays": 7,
+       "maxDays": 15,
+       "rates": [[20, 3.35], [50, 5.15], [100, 7.25], [250, 11.4], [350, 13.45], [1000, 19.9], [2000, 29.6]]
+      },
+      {
+       "name": "Zona 2 (Afrique, Asie, Amériques)",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "rates": [[20, 2.55], [50, 4.15], [100, 5.15], [250, 9.25], [350, 9.65], [1000, 14.5], [2000, 24.75]]
+      }
+     ]
+    },
+    {
+     "id": "raccomandata-internazionale",
+     "name": "Raccomandata Internazionale",
+     "scope": "INTERNATIONAL",
+     "tracking": true,
+     "registered": true,
+     "zones": [
+      {
+       "name": "Zona 1 (Europe et Méditerranée)",
+       "countries": ["@EUROPE", "@MEDITERRANEAN"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[20, 7.65], [50, 10.2], [100, 11.35], [250, 13.7], [350, 15.35], [1000, 20.8], [2000, 30.6]]
+      },
+      {
+       "name": "Zona 3 (Océanie)",
+       "countries": ["@OCEANIA"],
+       "minDays": 7,
+       "maxDays": 15,
+       "rates": [[20, 9.7], [50, 12.8], [100, 14.55], [250, 19.3], [350, 25.7], [1000, 38.6], [2000, 54.75]]
+      },
+      {
+       "name": "Zona 2 (Afrique, Asie, Amériques)",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "rates": [[20, 9.05], [50, 11.65], [100, 12.9], [250, 17.75], [350, 20.05], [1000, 28.9], [2000, 43.3]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "correos",
+   "name": "Correos",
+   "type": "POSTAL",
+   "origins": ["ES"],
+   "currency": "EUR",
+   "priceBasis": "TTC (péninsule et Baléares)",
+   "source": "https://www.correos.es/content/dam/correos/documentos/atc/tarifas/2026/Tarifas_Correos_2026_Peninsula_y_Baleares.pdf",
+   "validFrom": "2026-01-01",
+   "services": [
+    {
+     "id": "carta-ordinaria",
+     "name": "Carta ordinaria",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Espagne",
+       "countries": ["*"],
+       "rates": [[20, 0.96], [50, 1.15], [100, 1.75], [500, 3.7], [1000, 6.9], [2000, 7.45]]
+      }
+     ]
+    },
+    {
+     "id": "carta-certificada",
+     "name": "Carta certificada",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 3,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Espagne",
+       "countries": ["*"],
+       "rates": [[20, 5.74], [50, 5.93], [100, 6.53], [500, 8.48], [1000, 11.68], [2000, 12.23]]
+      }
+     ]
+    },
+    {
+     "id": "carta-internacional",
+     "name": "Carta internacional",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Zona 1 (Europe)",
+       "countries": ["@EUROPE"],
+       "exclude": ["AL", "AM", "BA", "CY", "GE", "MT", "MD", "RU"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[20, 2.0], [50, 2.3], [100, 3.1], [500, 7.4], [1000, 14.0], [2000, 22.1]]
+      },
+      {
+       "name": "Zona 2 (reste du monde)",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "rates": [[20, 2.1], [50, 2.6], [100, 4.3], [500, 11.08], [1000, 22.3], [2000, 38.4]]
+      }
+     ]
+    },
+    {
+     "id": "certificada-internacional",
+     "name": "Carta certificada internacional",
+     "scope": "INTERNATIONAL",
+     "tracking": true,
+     "registered": true,
+     "zones": [
+      {
+       "name": "Zona 1 (Europe)",
+       "countries": ["@EUROPE"],
+       "exclude": ["AL", "AM", "BA", "CY", "GE", "MT", "MD", "RU"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[20, 7.15], [50, 7.45], [100, 8.25], [500, 12.55], [1000, 19.15], [2000, 27.25]]
+      },
+      {
+       "name": "Zona 2 (reste du monde)",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "rates": [[20, 7.25], [50, 7.75], [100, 9.45], [500, 16.23], [1000, 27.45], [2000, 43.55]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bpost",
+   "name": "bpost",
+   "type": "POSTAL",
+   "origins": ["BE"],
+   "currency": "EUR",
+   "priceBasis": "exonéré de TVA",
+   "source": "https://www.bpost.be/fr/tarifs-particuliers",
+   "validFrom": "2026-01-01",
+   "services": [
+    {
+     "id": "non-prior",
+     "name": "Non Prior",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "Belgique",
+       "countries": ["*"],
+       "rates": [[50, 1.63], [100, 3.26], [350, 4.89], [1000, 8.15], [2000, 11.41]]
+      }
+     ]
+    },
+    {
+     "id": "prior",
+     "name": "Prior",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 1,
+     "zones": [
+      {
+       "name": "Belgique",
+       "countries": ["*"],
+       "rates": [[50, 2.52], [100, 5.04], [350, 7.56], [1000, 12.6], [2000, 17.64]]
+      }
+     ]
+    },
+    {
+     "id": "recommande",
+     "name": "Envoi recommandé",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "Belgique",
+       "countries": ["*"],
+       "rates": [[50, 9.85], [100, 12.37], [350, 14.89], [1000, 19.93], [2000, 24.97]]
+      }
+     ]
+    },
+    {
+     "id": "prior-international",
+     "name": "Prior international",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 2,
+       "maxDays": 5,
+       "rates": [[50, 3.07], [100, 9.21], [350, 15.35], [1000, 21.49], [2000, 27.63]]
+      },
+      {
+       "name": "Reste du monde",
+       "countries": ["*"],
+       "minDays": 5,
+       "maxDays": 12,
+       "rates": [[50, 3.29], [100, 9.87], [350, 16.45], [1000, 23.03], [2000, 29.61]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "postnl",
+   "name": "PostNL",
+   "type": "POSTAL",
+   "origins": ["NL"],
+   "currency": "EUR",
+   "priceBasis": "TTC",
+   "source": "https://www.postnl.nl/api/assets/blt43aa441bfc1e29f2/blt5e65605bca8690e0/tarievenboekje-12-juli-2026.pdf",
+   "validFrom": "2026-07-12",
+   "services": [
+    {
+     "id": "brief",
+     "name": "Brief",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "Pays-Bas",
+       "countries": ["*"],
+       "rates": [[20, 1.4], [50, 2.8], [2000, 4.35]]
+      }
+     ]
+    },
+    {
+     "id": "aangetekend",
+     "name": "Aangetekend (en ligne)",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "Pays-Bas",
+       "countries": ["*"],
+       "rates": [[2000, 12.3]]
+      }
+     ]
+    },
+    {
+     "id": "brief-internationaal",
+     "name": "Brief internationaal",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 3,
+       "maxDays": 7,
+       "rates": [[20, 2.11], [50, 4.22], [100, 6.33], [350, 8.44], [2000, 10.55]]
+      },
+      {
+       "name": "Reste du monde",
+       "countries": ["*"],
+       "minDays": 5,
+       "maxDays": 15,
+       "rates": [[20, 2.11], [50, 4.22], [100, 6.33], [350, 8.44], [2000, 10.55]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "swisspost",
+   "name": "La Poste suisse",
+   "type": "POSTAL",
+   "origins": ["CH"],
+   "currency": "CHF",
+   "priceBasis": "TTC",
+   "source": "https://www.post.ch/en/sending-letters/domestic-letters",
+   "validFrom": "2026-01-01",
+   "services": [
+    {
+     "id": "b-post",
+     "name": "Courrier B",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "Suisse",
+       "countries": ["*"],
+       "rates": [[100, 1.0], [500, 1.4], [1000, 2.0]]
+      }
+     ]
+    },
+    {
+     "id": "a-post",
+     "name": "Courrier A",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 1,
+     "zones": [
+      {
+       "name": "Suisse",
+       "countries": ["*"],
+       "rates": [[100, 1.2], [500, 1.7], [1000, 2.5]]
+      }
+     ]
+    },
+    {
+     "id": "a-post-plus",
+     "name": "Courrier A Plus (suivi)",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "minDays": 1,
+     "maxDays": 1,
+     "zones": [
+      {
+       "name": "Suisse",
+       "countries": ["*"],
+       "rates": [[100, 2.9], [1000, 4.7]]
+      }
+     ]
+    },
+    {
+     "id": "recommande",
+     "name": "Lettre recommandée",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 1,
+     "maxDays": 1,
+     "zones": [
+      {
+       "name": "Suisse",
+       "countries": ["*"],
+       "rates": [[1000, 5.8]]
+      }
+     ]
+    },
+    {
+     "id": "international",
+     "name": "Lettre internationale",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 3,
+       "maxDays": 6,
+       "rates": [[20, 1.9], [100, 4.3], [500, 13.0]]
+      },
+      {
+       "name": "Reste du monde",
+       "countries": ["*"],
+       "minDays": 5,
+       "maxDays": 12,
+       "rates": [[20, 1.9], [100, 4.3], [500, 13.0]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "postat",
+   "name": "Österreichische Post",
+   "type": "POSTAL",
+   "origins": ["AT"],
+   "currency": "EUR",
+   "priceBasis": "TTC",
+   "source": "https://www.post.at/p/c/brief-ausland",
+   "validFrom": "2026-08-01",
+   "note": "Au-delà de 75 g en national, envoi en « Päckchen S ».",
+   "services": [
+    {
+     "id": "brief",
+     "name": "Brief",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "Autriche",
+       "countries": ["*"],
+       "rates": [[20, 1.0], [75, 1.55], [2000, 3.1]]
+      }
+     ]
+    },
+    {
+     "id": "einschreiben",
+     "name": "Einschreiben",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 1,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "Autriche",
+       "countries": ["*"],
+       "rates": [[20, 4.5], [75, 5.05], [2000, 6.6]]
+      }
+     ]
+    },
+    {
+     "id": "economy",
+     "name": "Brief International Economy",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[20, 1.25], [75, 2.0], [2000, 6.7]]
+      },
+      {
+       "name": "Monde",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "rates": [[20, 2.0], [75, 2.8], [2000, 11.35]]
+      }
+     ]
+    },
+    {
+     "id": "priority",
+     "name": "Brief International Priority",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 2,
+       "maxDays": 4,
+       "rates": [[20, 1.45], [75, 2.4], [2000, 8.45]]
+      },
+      {
+       "name": "Monde",
+       "countries": ["*"],
+       "minDays": 4,
+       "maxDays": 10,
+       "rates": [[20, 2.2], [75, 3.0], [2000, 15.45]]
+      }
+     ]
+    },
+    {
+     "id": "einschreiben-international",
+     "name": "Einschreiben International (Priority)",
+     "scope": "INTERNATIONAL",
+     "tracking": true,
+     "registered": true,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 2,
+       "maxDays": 4,
+       "rates": [[20, 5.4], [75, 6.35], [2000, 12.4]]
+      },
+      {
+       "name": "Monde",
+       "countries": ["*"],
+       "minDays": 4,
+       "maxDays": 10,
+       "rates": [[20, 6.15], [75, 6.95], [2000, 19.4]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ctt",
+   "name": "CTT Correios de Portugal",
+   "type": "POSTAL",
+   "origins": ["PT"],
+   "currency": "EUR",
+   "priceBasis": "TTC",
+   "source": "https://www.ctt.pt/application/themes/pdfs/tarifario_2026_MSV4_16_01.pdf",
+   "validFrom": "2026-01-01",
+   "services": [
+    {
+     "id": "normal",
+     "name": "Correio Normal",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Portugal",
+       "countries": ["*"],
+       "rates": [[20, 0.73], [50, 1.15], [100, 1.5], [500, 2.34], [2000, 5.55]]
+      }
+     ]
+    },
+    {
+     "id": "azul",
+     "name": "Correio Azul",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "Portugal",
+       "countries": ["*"],
+       "rates": [[20, 1.0], [50, 1.55], [100, 1.9], [500, 3.9], [2000, 7.8]]
+      }
+     ]
+    },
+    {
+     "id": "registado",
+     "name": "Correio Registado",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 2,
+     "maxDays": 4,
+     "zones": [
+      {
+       "name": "Portugal",
+       "countries": ["*"],
+       "rates": [[20, 3.75], [50, 3.93], [100, 4.23], [250, 5.4], [2000, 8.93]]
+      }
+     ]
+    },
+    {
+     "id": "normal-internacional",
+     "name": "Correio Normal Internacional",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EU", "AD", "IS", "LI", "MC", "NO", "CH", "TR", "GB"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[20, 1.3], [50, 2.2], [100, 2.55], [500, 7.05], [1000, 10.85], [2000, 18.47]]
+      },
+      {
+       "name": "Reste du monde",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "rates": [[20, 1.45], [50, 2.85], [100, 3.2], [500, 10.75], [1000, 19.7], [2000, 32.3]]
+      }
+     ]
+    },
+    {
+     "id": "registado-internacional",
+     "name": "Correio Registado Internacional",
+     "scope": "INTERNATIONAL",
+     "tracking": true,
+     "registered": true,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EU", "AD", "IS", "LI", "MC", "NO", "CH", "TR", "GB"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[20, 6.15], [50, 6.7], [100, 7.2], [500, 11.1], [1000, 15.55], [2000, 23.35]]
+      },
+      {
+       "name": "Reste du monde",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "rates": [[20, 6.15], [50, 6.8], [100, 7.25], [500, 15.1], [1000, 24.75], [2000, 37.9]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "anpost",
+   "name": "An Post",
+   "type": "POSTAL",
+   "origins": ["IE"],
+   "currency": "EUR",
+   "priceBasis": "TTC",
+   "source": "https://www.anpost.com/Media-Centre/News/Stamp-prices-to-increase-in-line-with-European-postal-rates-and-safeguard-USO",
+   "validFrom": "2026-02-03",
+   "note": "Seul le tarif de la lettre standard (jusqu'à 100 g) a été relevé.",
+   "services": [
+    {
+     "id": "national",
+     "name": "Lettre nationale",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "Irlande",
+       "countries": ["*"],
+       "rates": [[100, 1.85]]
+      }
+     ]
+    },
+    {
+     "id": "international",
+     "name": "Lettre internationale",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe (dont Royaume-Uni)",
+       "countries": ["@EUROPE"],
+       "minDays": 3,
+       "maxDays": 6,
+       "rates": [[100, 3.5]]
+      },
+      {
+       "name": "Reste du monde",
+       "countries": ["*"],
+       "minDays": 5,
+       "maxDays": 12,
+       "rates": [[100, 3.95]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "postlu",
+   "name": "POST Luxembourg",
+   "type": "POSTAL",
+   "origins": ["LU"],
+   "currency": "EUR",
+   "priceBasis": "exonéré de TVA",
+   "source": "https://www.post.lu/documents/20125/760473/Liste+de+prix.pdf",
+   "validFrom": "2025-04-18",
+   "note": "Grille de 2025, la plus récente trouvée. Hors Europe, tarif non relevé par zone.",
+   "services": [
+    {
+     "id": "lettre",
+     "name": "Lettre",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "Luxembourg",
+       "countries": ["*"],
+       "rates": [[50, 1.2], [500, 2.4], [2000, 4.8]]
+      }
+     ]
+    },
+    {
+     "id": "recommande",
+     "name": "Lettre recommandée",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "Luxembourg",
+       "countries": ["*"],
+       "rates": [[50, 6.7], [500, 7.9], [2000, 10.3]]
+      }
+     ]
+    },
+    {
+     "id": "lettre-europe",
+     "name": "Lettre Europe",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 2,
+       "maxDays": 5,
+       "rates": [[50, 1.7], [500, 5.1], [2000, 8.5]]
+      }
+     ]
+    },
+    {
+     "id": "recommande-europe",
+     "name": "Recommandé Europe",
+     "scope": "INTERNATIONAL",
+     "tracking": true,
+     "registered": true,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 2,
+       "maxDays": 5,
+       "rates": [[50, 7.2], [500, 10.6], [2000, 14.0]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "postnord-se",
+   "name": "PostNord Suède",
+   "type": "POSTAL",
+   "origins": ["SE"],
+   "currency": "SEK",
+   "priceBasis": "TTC",
+   "source": "https://postabrev.se/porto/portotabell",
+   "validFrom": "2026-05-04",
+   "services": [
+    {
+     "id": "brev",
+     "name": "Brev",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 4,
+     "zones": [
+      {
+       "name": "Suède",
+       "countries": ["*"],
+       "rates": [[50, 22], [100, 44], [250, 66], [500, 88], [1000, 132], [2000, 154]]
+      }
+     ]
+    },
+    {
+     "id": "brev-utrikes",
+     "name": "Brev utrikes",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 3,
+       "maxDays": 7,
+       "rates": [[50, 44], [100, 66], [250, 110], [500, 140], [1000, 200], [2000, 240]]
+      },
+      {
+       "name": "Reste du monde",
+       "countries": ["*"],
+       "minDays": 5,
+       "maxDays": 15,
+       "rates": [[50, 44], [100, 66], [250, 110], [500, 140], [1000, 200], [2000, 240]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "posti",
+   "name": "Posti",
+   "type": "POSTAL",
+   "origins": ["FI"],
+   "currency": "EUR",
+   "priceBasis": "TTC",
+   "source": "https://www.posti.fi/lahettaminen/kirjeet-ja-postikortit/kirjeiden-hinnastot",
+   "validFrom": "2026-06-02",
+   "services": [
+    {
+     "id": "kirje",
+     "name": "Kirje",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 4,
+     "zones": [
+      {
+       "name": "Finlande",
+       "countries": ["*"],
+       "rates": [[50, 3.0], [250, 6.0], [1000, 12.0], [2000, 18.0]]
+      }
+     ]
+    },
+    {
+     "id": "economy",
+     "name": "Lettre internationale Economy",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[20, 3.0], [100, 6.0], [250, 9.0]]
+      },
+      {
+       "name": "Autres pays",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "rates": [[20, 3.0], [100, 7.0], [250, 12.0]]
+      }
+     ]
+    },
+    {
+     "id": "priority",
+     "name": "Lettre internationale Priority",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 2,
+       "maxDays": 5,
+       "rates": [[20, 3.35], [100, 6.7], [250, 10.05]]
+      },
+      {
+       "name": "Autres pays",
+       "countries": ["*"],
+       "minDays": 4,
+       "maxDays": 10,
+       "rates": [[20, 3.35], [100, 13.4], [250, 23.45]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ceskaposta",
+   "name": "Česká pošta",
+   "type": "POSTAL",
+   "origins": ["CZ"],
+   "currency": "CZK",
+   "priceBasis": "TTC",
+   "source": "https://www.ceskaposta.cz/en/sluzby/zasilky-zahranici/psani/obycejna-zasilka-do-zahranici",
+   "validFrom": "2026-07-01",
+   "note": "Tarif national non relevé.",
+   "services": [
+    {
+     "id": "obycejna",
+     "name": "Lettre ordinaire internationale",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Union européenne",
+       "countries": ["@EU"],
+       "minDays": 3,
+       "maxDays": 7,
+       "rates": [[50, 48], [100, 67], [250, 109], [500, 151], [1000, 248], [2000, 417]]
+      },
+      {
+       "name": "Europe hors UE",
+       "countries": ["@EUROPE_NON_EU"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[50, 48], [100, 67], [250, 120], [500, 162], [1000, 259], [2000, 428]]
+      },
+      {
+       "name": "Hors Europe",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "rates": [[50, 54], [100, 74], [250, 141], [500, 213], [1000, 356], [2000, 610]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "postaromana",
+   "name": "Poșta Română",
+   "type": "POSTAL",
+   "origins": ["RO"],
+   "currency": "RON",
+   "priceBasis": "exonéré de TVA",
+   "source": "https://www.posta-romana.ro/a313/tarife/scrisori-carti-postale/in-romania/corespondenta-intern.html",
+   "validFrom": "2026-01-01",
+   "services": [
+    {
+     "id": "neprioritar",
+     "name": "Corespondență neprioritară",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Roumanie",
+       "countries": ["*"],
+       "rates": [[100, 5.5], [500, 6.0], [2000, 7.0]]
+      }
+     ]
+    },
+    {
+     "id": "prioritar",
+     "name": "Corespondență prioritară",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "Roumanie",
+       "countries": ["*"],
+       "rates": [[100, 7.0], [500, 7.5], [2000, 8.5]]
+      }
+     ]
+    },
+    {
+     "id": "recomandat",
+     "name": "Recomandată (non prioritaire)",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 3,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Roumanie",
+       "countries": ["*"],
+       "rates": [[100, 9.0], [500, 9.5], [2000, 10.5]]
+      }
+     ]
+    },
+    {
+     "id": "international-prioritar",
+     "name": "Corespondență internațională prioritară",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "International",
+       "countries": ["*"],
+       "minDays": 4,
+       "maxDays": 15,
+       "rates": [[100, 16.0], [500, 27.0], [2000, 59.0]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "usps",
+   "name": "USPS",
+   "type": "POSTAL",
+   "origins": ["US"],
+   "currency": "USD",
+   "priceBasis": "TTC",
+   "source": "https://www.usps.com/international/first-class-mail-international.htm",
+   "validFrom": "2026-07-12",
+   "note": "International : seul le tarif lettre jusqu'à 1 oz (28 g) a été vérifié.",
+   "services": [
+    {
+     "id": "first-class",
+     "name": "First-Class Mail",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "États-Unis",
+       "countries": ["*"],
+       "rates": [[28, 0.82], [56, 1.11], [85, 1.4], [99, 1.69], [113, 2.56], [226, 3.72], [368, 5.24]]
+      }
+     ]
+    },
+    {
+     "id": "first-class-international",
+     "name": "First-Class Mail International",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "International",
+       "countries": ["*"],
+       "minDays": 7,
+       "maxDays": 21,
+       "rates": [[28, 1.75]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "canadapost",
+   "name": "Postes Canada",
+   "type": "POSTAL",
+   "origins": ["CA"],
+   "currency": "CAD",
+   "priceBasis": "hors taxes",
+   "source": "https://www.canadapost-postescanada.ca/cpc/en/personal/sending/letters-mail/postage-rates.page",
+   "validFrom": "2026-01-01",
+   "services": [
+    {
+     "id": "poste-lettres",
+     "name": "Poste-lettres",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 7,
+     "zones": [
+      {
+       "name": "Canada",
+       "countries": ["*"],
+       "rates": [[30, 1.44], [50, 1.75], [100, 2.61], [200, 4.29], [300, 5.98], [400, 6.85], [500, 7.36]]
+      }
+     ]
+    },
+    {
+     "id": "poste-lettres-international",
+     "name": "Poste-lettres international",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "États-Unis",
+       "countries": ["US"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[30, 1.75], [50, 2.61], [100, 4.29], [200, 7.49], [500, 14.99]]
+      },
+      {
+       "name": "International",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "rates": [[30, 3.65], [50, 5.21], [100, 8.6], [200, 14.99], [500, 29.96]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "auspost",
+   "name": "Australia Post",
+   "type": "POSTAL",
+   "origins": ["AU"],
+   "currency": "AUD",
+   "priceBasis": "TTC",
+   "source": "https://auspost.com.au/content/dam/auspost_corp/media/documents/post-guides/international-post-charges-easy-guide.pdf",
+   "validFrom": "2026-07-01",
+   "note": "International : petite lettre comptée jusqu'à 50 g, grande lettre au-delà.",
+   "services": [
+    {
+     "id": "letter",
+     "name": "Letter",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 7,
+     "zones": [
+      {
+       "name": "Australie",
+       "countries": ["*"],
+       "rates": [[250, 1.85], [500, 9.0]]
+      }
+     ]
+    },
+    {
+     "id": "international-letter",
+     "name": "International Standard Letter",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Zone 1 (Nouvelle-Zélande)",
+       "countries": ["NZ"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[50, 3.45], [500, 11.7]]
+      },
+      {
+       "name": "Zone 3 (États-Unis, Canada)",
+       "countries": ["US", "CA"],
+       "minDays": 6,
+       "maxDays": 12,
+       "rates": [[50, 4.4], [500, 15.25]]
+      },
+      {
+       "name": "Zone 4 (Royaume-Uni, Europe)",
+       "countries": ["@EUROPE"],
+       "minDays": 6,
+       "maxDays": 12,
+       "rates": [[50, 4.7], [500, 16.15]]
+      },
+      {
+       "name": "Zone 2 (Asie-Pacifique)",
+       "countries": ["@ASIA", "@OCEANIA"],
+       "minDays": 5,
+       "maxDays": 10,
+       "rates": [[50, 3.75], [500, 12.6]]
+      },
+      {
+       "name": "Zone 5 (reste du monde)",
+       "countries": ["*"],
+       "minDays": 7,
+       "maxDays": 15,
+       "rates": [[50, 5.15], [500, 17.75]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "japanpost",
+   "name": "Japan Post",
+   "type": "POSTAL",
+   "origins": ["JP"],
+   "currency": "JPY",
+   "priceBasis": "TTC",
+   "source": "https://www.post.japanpost.jp/send/oversea/charge/index_en.html",
+   "validFrom": "2026-01-01",
+   "note": "International par avion. Zones 4 et 5 (États-Unis, Amérique latine, Afrique) non relevées.",
+   "services": [
+    {
+     "id": "teikei",
+     "name": "Lettre (teikei / teikeigai)",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "Japon",
+       "countries": ["*"],
+       "rates": [[50, 110], [100, 180], [500, 510], [1000, 750]]
+      }
+     ]
+    },
+    {
+     "id": "airmail",
+     "name": "Lettre par avion",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "zones": [
+      {
+       "name": "Zone 1 (Chine, Corée, Taïwan)",
+       "countries": ["CN", "KR", "TW"],
+       "minDays": 3,
+       "maxDays": 6,
+       "rates": [[25, 120], [50, 190], [100, 340], [250, 520], [500, 790], [1000, 1460], [2000, 2200]]
+      },
+      {
+       "name": "Zone 2 (Asie)",
+       "countries": ["@ASIA"],
+       "minDays": 3,
+       "maxDays": 6,
+       "rates": [[25, 120], [50, 190], [100, 340], [250, 520], [500, 790], [1000, 1490], [2000, 2690]]
+      },
+      {
+       "name": "Zone 3 (Europe, Océanie, Canada, Mexique, Moyen-Orient)",
+       "countries": ["@EUROPE", "@OCEANIA", "@MIDDLE_EAST", "CA", "MX"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[25, 140], [50, 220], [100, 420], [250, 720], [500, 1260], [1000, 2250], [2000, 4130]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "dhl",
+   "name": "DHL Express",
+   "type": "EXPRESS",
+   "origins": ["FR"],
+   "currency": "EUR",
+   "priceBasis": "HT, hors surcharge carburant",
+   "source": "https://guide.dhl.fr/pdf/guide_dhl_express_2026_fr.pdf",
+   "validFrom": "2026-01-01",
+   "note": "Tarif public sans compte. Surcharge carburant mensuelle en plus. Remise importante possible via un compte professionnel.",
+   "services": [
+    {
+     "id": "express-worldwide",
+     "name": "Express Worldwide (documents)",
+     "scope": "INTERNATIONAL",
+     "tracking": true,
+     "zones": [
+      {
+       "name": "Zone 1",
+       "countries": ["DE", "BE", "ES", "IT", "LU", "NL", "VA"],
+       "minDays": 1,
+       "maxDays": 2,
+       "rates": [[300, 71.72], [500, 82.95], [1000, 103.03], [2000, 131.19]]
+      },
+      {
+       "name": "Zone 2",
+       "countries": ["AT", "DK", "FI", "IE", "PL", "PT", "CZ"],
+       "minDays": 1,
+       "maxDays": 2,
+       "rates": [[300, 83.28], [500, 96.05], [1000, 121.08], [2000, 154.46]]
+      },
+      {
+       "name": "Zone 3",
+       "countries": ["BG", "CY", "HR", "EE", "GR", "HU", "LV", "LT", "MT", "RO", "SK", "SI", "SE"],
+       "minDays": 1,
+       "maxDays": 3,
+       "rates": [[300, 88.54], [500, 98.91], [1000, 124.68], [2000, 159.04]]
+      },
+      {
+       "name": "Zone 4",
+       "countries": ["GB"],
+       "minDays": 1,
+       "maxDays": 2,
+       "rates": [[300, 88.81], [500, 107.58], [1000, 125.25], [2000, 160.75]]
+      },
+      {
+       "name": "Zone 5 (Europe hors UE)",
+       "countries": ["@EUROPE_NON_EU"],
+       "minDays": 1,
+       "maxDays": 3,
+       "rates": [[300, 88.84], [500, 119.28], [1000, 145.82], [2000, 189.38]]
+      },
+      {
+       "name": "Zone 6 (Amérique du Nord)",
+       "countries": ["US", "CA", "MX"],
+       "minDays": 1,
+       "maxDays": 3,
+       "rates": [[300, 90.67], [500, 127.02], [1000, 154.16], [2000, 190.44]]
+      },
+      {
+       "name": "Zone 7 (Asie)",
+       "countries": ["CN", "JP", "HK", "IN", "MY", "SG", "TW", "TH", "VN"],
+       "minDays": 2,
+       "maxDays": 4,
+       "rates": [[300, 103.84], [500, 145.46], [1000, 186.61], [2000, 236.81]]
+      },
+      {
+       "name": "Zone 8 (reste du monde)",
+       "countries": ["*"],
+       "exclude": ["FR"],
+       "minDays": 2,
+       "maxDays": 5,
+       "rates": [[300, 138.01], [500, 191.77], [1000, 249.33], [2000, 316.53]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "dao",
+   "name": "dao (ex-PostNord Danemark)",
+   "type": "POSTAL",
+   "origins": ["DK"],
+   "currency": "DKK",
+   "priceBasis": "TTC",
+   "source": "https://dao.as/privat-breve/",
+   "validFrom": "2026-01-01",
+   "note": "Depuis 2026 les lettres sont distribuées par dao. Tarifs « à partir de », jusqu'à 250 g.",
+   "services": [
+    {
+     "id": "brev",
+     "name": "Brev",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[250, 23]]
+      }
+     ]
+    },
+    {
+     "id": "brev-plus",
+     "name": "Brev PLUS",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[250, 36]]
+      }
+     ]
+    },
+    {
+     "id": "anbefalet",
+     "name": "Anbefalet brev",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[250, 210]]
+      }
+     ]
+    },
+    {
+     "id": "udland",
+     "name": "Brev til udlandet",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "International",
+       "countries": ["*"],
+       "minDays": 4,
+       "maxDays": 16,
+       "rates": [[250, 46]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "posten-no",
+   "name": "Posten Norge",
+   "type": "POSTAL",
+   "origins": ["NO"],
+   "currency": "NOK",
+   "priceBasis": "TTC",
+   "source": "https://www.posten.no/sende/brev/vanlig",
+   "validFrom": "2026-02-01",
+   "note": "Tarif par format depuis février 2026 : « lite brev » (C5 fin) jusqu'à 100 g environ, sinon « stort brev ».",
+   "services": [
+    {
+     "id": "brev",
+     "name": "Brev",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[100, 28], [2000, 46]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pocztapolska",
+   "name": "Poczta Polska",
+   "type": "POSTAL",
+   "origins": ["PL"],
+   "currency": "PLN",
+   "priceBasis": "TTC",
+   "source": "https://godzinypoczty.pl/artykuly/cennik-poczta-polska-2026-listy-paczki-znaczki",
+   "validFrom": "2026-01-01",
+   "note": "Formats S (≤500 g), M (≤1 kg), L (≤2 kg). International non relevé.",
+   "services": [
+    {
+     "id": "ekonomiczny",
+     "name": "List zwykły ekonomiczny",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[500, 4.9], [1000, 5.6], [2000, 8.2]]
+      }
+     ]
+    },
+    {
+     "id": "priorytetowy",
+     "name": "List zwykły priorytetowy",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[500, 5.8], [1000, 6.4], [2000, 9.0]]
+      }
+     ]
+    },
+    {
+     "id": "polecony",
+     "name": "List polecony ekonomiczny",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 3,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[500, 7.8], [1000, 8.5], [2000, 15.6]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "magyarposta",
+   "name": "Magyar Posta",
+   "type": "POSTAL",
+   "origins": ["HU"],
+   "currency": "HUF",
+   "priceBasis": "TTC",
+   "source": "https://www.posta.hu/static/internet/download/Lapdijszabas_20260803-Hun_ONLINE.pdf",
+   "validFrom": "2026-08-03",
+   "note": "International : seul le tarif jusqu'à 50 g (dépôt avec pré-saisie électronique) a été relevé.",
+   "services": [
+    {
+     "id": "nem-elsobbsegi",
+     "name": "Levél (non prioritaire)",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 4,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[50, 305], [500, 920], [2000, 2800]]
+      }
+     ]
+    },
+    {
+     "id": "elsobbsegi",
+     "name": "Levél (prioritaire)",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[50, 440], [500, 1260], [2000, 3625]]
+      }
+     ]
+    },
+    {
+     "id": "ajanlott",
+     "name": "Ajánlott levél",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 2,
+     "maxDays": 4,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[50, 1125], [500, 1740], [2000, 3620]]
+      }
+     ]
+    },
+    {
+     "id": "nemzetkozi",
+     "name": "Levél international (non prioritaire)",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Union européenne",
+       "countries": ["@EU"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[50, 1155]]
+      },
+      {
+       "name": "Hors UE",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "rates": [[50, 1335]]
+      }
+     ]
+    },
+    {
+     "id": "nemzetkozi-prio",
+     "name": "Levél international (prioritaire)",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Union européenne",
+       "countries": ["@EU"],
+       "minDays": 3,
+       "maxDays": 6,
+       "rates": [[50, 1440]]
+      },
+      {
+       "name": "Hors UE",
+       "countries": ["*"],
+       "minDays": 5,
+       "maxDays": 12,
+       "rates": [[50, 1575]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ptt",
+   "name": "PTT",
+   "type": "POSTAL",
+   "origins": ["TR"],
+   "currency": "TRY",
+   "priceBasis": "TTC",
+   "source": "https://pttwebdosya.ptt.gov.tr/api/file/getFile?FileName=5ca0a84b-938e-4f00-8a29-40efbba33a93*POSTA+VE+TELGRAF+%C3%9CCRET+TAR%C4%B0FESi+04.02.2026.pdf",
+   "validFrom": "2026-02-04",
+   "note": "International : tarif jusqu'à 100 g.",
+   "services": [
+    {
+     "id": "mektup",
+     "name": "Mektup (adi)",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[20, 45], [50, 55], [100, 95], [250, 115], [500, 150], [1000, 190], [2000, 220]]
+      }
+     ]
+    },
+    {
+     "id": "yurtdisi",
+     "name": "Yurtdışı mektup",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 5,
+       "maxDays": 10,
+       "rates": [[100, 265]]
+      },
+      {
+       "name": "Autres pays",
+       "countries": ["*"],
+       "minDays": 7,
+       "maxDays": 20,
+       "rates": [[100, 310]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "elta",
+   "name": "ELTA Hellenic Post",
+   "type": "POSTAL",
+   "origins": ["GR"],
+   "currency": "EUR",
+   "priceBasis": "TTC",
+   "source": "https://philotelismos.gr/blog/neos-timokatalogos-elta",
+   "validFrom": "2023-07-27",
+   "note": "Grille de 2023, la plus récente trouvée ; seul le palier 20 g.",
+   "services": [
+    {
+     "id": "epistoli",
+     "name": "Lettre (économique)",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[20, 1.2]]
+      }
+     ]
+    },
+    {
+     "id": "systimeni",
+     "name": "Lettre recommandée",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[20, 4.0]]
+      }
+     ]
+    },
+    {
+     "id": "exoteriko",
+     "name": "Lettre internationale (zone 1)",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Zone 1 (Europe)",
+       "countries": ["@EUROPE"],
+       "minDays": 4,
+       "maxDays": 10,
+       "rates": [[20, 2.0]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "slovenskaposta",
+   "name": "Slovenská pošta",
+   "type": "POSTAL",
+   "origins": ["SK"],
+   "currency": "EUR",
+   "priceBasis": "TTC",
+   "source": "https://posty.sk/cennik/",
+   "validFrom": "2026-01-01",
+   "services": [
+    {
+     "id": "druha-trieda",
+     "name": "List 2. triedy",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[50, 1.2], [100, 1.45], [500, 2.3], [1000, 3.6], [2000, 5.1]]
+      }
+     ]
+    },
+    {
+     "id": "prva-trieda",
+     "name": "List 1. triedy",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 1,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[50, 1.55], [100, 1.85], [500, 2.85], [1000, 4.5], [2000, 6.2]]
+      }
+     ]
+    },
+    {
+     "id": "doporuceny",
+     "name": "Doporučený list 1. triedy",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[50, 2.5]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "latvijaspasts",
+   "name": "Latvijas Pasts",
+   "type": "POSTAL",
+   "origins": ["LV"],
+   "currency": "EUR",
+   "priceBasis": "TTC",
+   "source": "https://pasts.lv/jaunumi/tarifi/sprk-apstiprina-latvijas-pasta-iesniegtos-universalo-pasta-pakalpojuma-tarifus",
+   "validFrom": "2026-01-01",
+   "note": "Seul le palier 20 g a été relevé.",
+   "services": [
+    {
+     "id": "vestule",
+     "name": "Vēstule",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[20, 2.35]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "nzpost",
+   "name": "NZ Post",
+   "type": "POSTAL",
+   "origins": ["NZ"],
+   "currency": "NZD",
+   "priceBasis": "TTC",
+   "source": "https://www.nzpost.co.nz/personal/sending-internationally/letters",
+   "validFrom": "2026-05-01",
+   "note": "Tarif par format (medium, large, oversize) ramené au poids.",
+   "services": [
+    {
+     "id": "standard",
+     "name": "Standard Mail",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[100, 3.6], [500, 4.9], [1000, 6.2]]
+      }
+     ]
+    },
+    {
+     "id": "economy-international",
+     "name": "International Economy Letter",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Australie et Pacifique Sud",
+       "countries": ["@SOUTH_PACIFIC"],
+       "minDays": 3,
+       "maxDays": 6,
+       "rates": [[100, 4.2], [200, 4.9]]
+      },
+      {
+       "name": "Reste du monde",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 13,
+       "rates": [[100, 4.9], [200, 5.8]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "singpost",
+   "name": "SingPost",
+   "type": "POSTAL",
+   "origins": ["SG"],
+   "currency": "SGD",
+   "priceBasis": "TTC",
+   "source": "https://www.singpost.com/about-us/news-releases/new-rates-standard-domestic-mail-come-effect-1-january-2026",
+   "validFrom": "2026-01-01",
+   "note": "Seul le palier de base a été relevé.",
+   "services": [
+    {
+     "id": "standard",
+     "name": "Standard Regular Mail",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[20, 0.62]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hongkongpost",
+   "name": "Hongkong Post",
+   "type": "POSTAL",
+   "origins": ["HK"],
+   "currency": "HKD",
+   "priceBasis": "TTC",
+   "source": "https://www.info.gov.hk/gia/general/202603/23/P2026032300246.htm",
+   "validFrom": "2026-04-13",
+   "note": "Seuls les paliers de base ont été relevés.",
+   "services": [
+    {
+     "id": "local",
+     "name": "Local mail",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[30, 2.4]]
+      }
+     ]
+    },
+    {
+     "id": "airmail",
+     "name": "Air mail",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Chine continentale et Taïwan",
+       "countries": ["CN", "TW"],
+       "minDays": 3,
+       "maxDays": 7,
+       "rates": [[20, 3.9]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "indiapost",
+   "name": "India Post",
+   "type": "POSTAL",
+   "origins": ["IN"],
+   "currency": "INR",
+   "priceBasis": "TTC",
+   "source": "https://indiapost.org/india-post-postage-rates",
+   "validFrom": "2026-01-01",
+   "note": "5 ₹ par tranche de 20 g.",
+   "services": [
+    {
+     "id": "letter",
+     "name": "Letter",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 7,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[20, 5], [40, 10], [60, 15], [80, 20], [100, 25], [120, 30], [140, 35], [160, 40], [180, 45], [200, 50], [220, 55], [240, 60], [260, 65], [280, 70], [300, 75], [320, 80], [340, 85], [360, 90], [380, 95], [400, 100], [420, 105], [440, 110], [460, 115], [480, 120], [500, 125]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "koreapost",
+   "name": "Korea Post",
+   "type": "POSTAL",
+   "origins": ["KR"],
+   "currency": "KRW",
+   "priceBasis": "TTC",
+   "source": "https://jodal.koreapost.go.kr/eng/subIndex/4407.do",
+   "validFrom": "2026-07-01",
+   "note": "Tarif national d'après NamuWiki (juillet 2026) ; international : grille officielle en vigueur depuis 2017.",
+   "services": [
+    {
+     "id": "ordinary",
+     "name": "Courrier ordinaire",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 1,
+     "maxDays": 3,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[25, 500], [50, 520], [100, 640], [150, 760], [200, 880], [250, 1000], [300, 1120], [350, 1240], [400, 1360], [450, 1480], [500, 1600], [550, 1720], [600, 1840], [650, 1960], [700, 2080], [750, 2200], [800, 2320], [850, 2440], [900, 2560], [950, 2680], [1000, 2800]]
+      }
+     ]
+    },
+    {
+     "id": "registered",
+     "name": "Courrier recommandé",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 1,
+     "maxDays": 2,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[25, 2900], [50, 2920], [100, 3040], [150, 3160], [200, 3280], [250, 3400], [300, 3520], [350, 3640], [400, 3760], [450, 3880], [500, 4000], [550, 4120], [600, 4240], [650, 4360], [700, 4480], [750, 4600], [800, 4720], [850, 4840], [900, 4960], [950, 5080], [1000, 5200]]
+      }
+     ]
+    },
+    {
+     "id": "airmail",
+     "name": "Airmail letter",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Zone 1 (Japon, Chine, Taïwan, Hong Kong, Macao)",
+       "countries": ["JP", "CN", "TW", "HK", "MO"],
+       "minDays": 3,
+       "maxDays": 6,
+       "rates": [[10, 570], [20, 610], [50, 960], [100, 1740], [250, 3360], [500, 6070], [1000, 11440], [2000, 21080]]
+      },
+      {
+       "name": "Zone 2 (Asie du Sud-Est, Mongolie)",
+       "countries": ["@SOUTHEAST_ASIA"],
+       "minDays": 4,
+       "maxDays": 8,
+       "rates": [[10, 610], [20, 690], [50, 1120], [100, 1860], [250, 4470], [500, 8830], [1000, 17550], [2000, 32080]]
+      },
+      {
+       "name": "Zone 3 (Amérique du Nord, Europe, Moyen-Orient, Océanie, Asie du Sud)",
+       "countries": ["US", "CA", "@EUROPE", "@MIDDLE_EAST", "AU", "NZ", "AF", "IN", "NP", "PK", "LK"],
+       "minDays": 5,
+       "maxDays": 10,
+       "rates": [[10, 700], [20, 780], [50, 1470], [100, 2630], [250, 5540], [500, 10410], [1000, 20130], [2000, 39580]]
+      },
+      {
+       "name": "Zone 4 (Afrique, Amérique latine, Pacifique)",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "rates": [[10, 720], [20, 850], [50, 1710], [100, 3220], [250, 7380], [500, 14590], [1000, 28030], [2000, 50000]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chunghwapost",
+   "name": "Chunghwa Post",
+   "type": "POSTAL",
+   "origins": ["TW"],
+   "currency": "TWD",
+   "priceBasis": "TTC",
+   "source": "https://www.post.gov.tw/post/internet/U_english2/index.jsp?ID=35140405",
+   "validFrom": "2021-03-08",
+   "note": "National non relevé.",
+   "services": [
+    {
+     "id": "airmail",
+     "name": "Airmail letter",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Hong Kong, Macao",
+       "countries": ["HK", "MO"],
+       "minDays": 2,
+       "maxDays": 5,
+       "rates": [[20, 9], [40, 15], [60, 21], [80, 27], [100, 33], [120, 39], [140, 45], [160, 51], [180, 57], [200, 63], [220, 69], [240, 75], [260, 81], [280, 87], [300, 93], [320, 99], [340, 105], [360, 111], [380, 117], [400, 123], [420, 129], [440, 135], [460, 141], [480, 147], [500, 153]]
+      },
+      {
+       "name": "États-Unis, Canada",
+       "countries": ["US", "CA"],
+       "minDays": 5,
+       "maxDays": 10,
+       "rates": [[10, 15], [20, 28], [30, 41], [40, 54], [50, 67], [60, 80], [70, 93], [80, 106], [90, 119], [100, 132], [110, 145], [120, 158], [130, 171], [140, 184], [150, 197], [160, 210], [170, 223], [180, 236], [190, 249], [200, 262], [210, 275], [220, 288], [230, 301], [240, 314], [250, 327], [260, 340], [270, 353], [280, 366], [290, 379], [300, 392], [310, 405], [320, 418], [330, 431], [340, 444], [350, 457], [360, 470], [370, 483], [380, 496], [390, 509], [400, 522], [410, 535], [420, 548], [430, 561], [440, 574], [450, 587], [460, 600], [470, 613], [480, 626], [490, 639], [500, 652]]
+      },
+      {
+       "name": "Asie et Océanie",
+       "countries": ["@ASIA", "@OCEANIA"],
+       "minDays": 3,
+       "maxDays": 8,
+       "rates": [[10, 13], [20, 22], [30, 31], [40, 40], [50, 49], [60, 58], [70, 67], [80, 76], [90, 85], [100, 94], [110, 103], [120, 112], [130, 121], [140, 130], [150, 139], [160, 148], [170, 157], [180, 166], [190, 175], [200, 184], [210, 193], [220, 202], [230, 211], [240, 220], [250, 229], [260, 238], [270, 247], [280, 256], [290, 265], [300, 274], [310, 283], [320, 292], [330, 301], [340, 310], [350, 319], [360, 328], [370, 337], [380, 346], [390, 355], [400, 364], [410, 373], [420, 382], [430, 391], [440, 400], [450, 409], [460, 418], [470, 427], [480, 436], [490, 445], [500, 454]]
+      },
+      {
+       "name": "Europe, Afrique, Amériques",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 12,
+       "rates": [[10, 17], [20, 31], [30, 45], [40, 59], [50, 73], [60, 87], [70, 101], [80, 115], [90, 129], [100, 143], [110, 157], [120, 171], [130, 185], [140, 199], [150, 213], [160, 227], [170, 241], [180, 255], [190, 269], [200, 283], [210, 297], [220, 311], [230, 325], [240, 339], [250, 353], [260, 367], [270, 381], [280, 395], [290, 409], [300, 423], [310, 437], [320, 451], [330, 465], [340, 479], [350, 493], [360, 507], [370, 521], [380, 535], [390, 549], [400, 563], [410, 577], [420, 591], [430, 605], [440, 619], [450, 633], [460, 647], [470, 661], [480, 675], [490, 689], [500, 703]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "thailandpost",
+   "name": "Thailand Post",
+   "type": "POSTAL",
+   "origins": ["TH"],
+   "currency": "THB",
+   "priceBasis": "TTC",
+   "source": "https://www.nationthailand.com/in-focus/40017498",
+   "validFrom": "2024-01-01",
+   "note": "Grille annoncée en 2024 ; international non relevé.",
+   "services": [
+    {
+     "id": "letter",
+     "name": "Letter",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[20, 5], [100, 10], [250, 15], [500, 20], [1000, 35], [2000, 55]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "correios-br",
+   "name": "Correios (Brésil)",
+   "type": "POSTAL",
+   "origins": ["BR"],
+   "currency": "BRL",
+   "priceBasis": "TTC",
+   "source": "https://www.correios.com.br/enviar/correspondencia/tarifas",
+   "validFrom": "2026-04-12",
+   "note": "International : grille en 5 groupes relevée mais sans la liste des pays, non intégrée.",
+   "services": [
+    {
+     "id": "carta",
+     "name": "Carta não comercial",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 8,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[20, 2.65], [50, 3.7], [100, 5.15], [150, 6.3], [200, 7.45], [250, 8.55], [300, 9.8], [350, 10.95], [400, 12.1], [450, 13.25], [500, 14.4]]
+      }
+     ]
+    },
+    {
+     "id": "carta-registrada",
+     "name": "Carta registrada",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 3,
+     "maxDays": 8,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[20, 10.75], [50, 11.8], [100, 13.25], [150, 14.4], [200, 15.55], [250, 16.65], [300, 17.9], [350, 19.05], [400, 20.2], [450, 21.35], [500, 22.5]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "correosmx",
+   "name": "Correos de México",
+   "type": "POSTAL",
+   "origins": ["MX"],
+   "currency": "MXN",
+   "priceBasis": "TTC",
+   "source": "https://www.correosdemexico.gob.mx/DATOSABIERTOS/Tarifas/Individuales/1_Cartas_y_Tarjetas_Postales.pdf",
+   "validFrom": "2010-02-24",
+   "note": "Grille officielle (données ouvertes) dont la date d'effet affichée est 2010.",
+   "services": [
+    {
+     "id": "carta",
+     "name": "Carta nacional",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 10,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[20, 7.0], [40, 7.5], [60, 9.0], [80, 10.0], [100, 12.5], [200, 14.0], [300, 15.5], [400, 18.5], [500, 21.0], [1000, 28.0]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "correoargentino",
+   "name": "Correo Argentino",
+   "type": "POSTAL",
+   "origins": ["AR"],
+   "currency": "ARS",
+   "priceBasis": "TTC",
+   "source": "https://www.correoargentino.com.ar/servicios/postales/carta-simple-2",
+   "validFrom": "2026-01-01",
+   "note": "National non relevé. Conversion très sensible au taux du peso.",
+   "services": [
+    {
+     "id": "carta-simple-int",
+     "name": "Carta simple internacional",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "zones": [
+      {
+       "name": "Pays limitrophes",
+       "countries": ["BO", "BR", "CL", "PY", "UY"],
+       "minDays": 7,
+       "maxDays": 15,
+       "rates": [[20, 8600], [150, 17500], [500, 33200], [1000, 58000], [2000, 102700]]
+      },
+      {
+       "name": "Reste de l'Amérique du Sud",
+       "countries": ["@SOUTH_AMERICA"],
+       "minDays": 7,
+       "maxDays": 15,
+       "rates": [[20, 9100], [150, 20700], [500, 40300], [1000, 72100], [2000, 126500]]
+      },
+      {
+       "name": "Reste des Amériques",
+       "countries": ["@AMERICAS_OTHER"],
+       "minDays": 7,
+       "maxDays": 15,
+       "rates": [[20, 9500], [150, 22600], [500, 47400], [1000, 86900], [2000, 150500]]
+      },
+      {
+       "name": "Europe",
+       "countries": ["@EUROPE"],
+       "minDays": 7,
+       "maxDays": 15,
+       "rates": [[20, 10900], [150, 24900], [500, 50400], [1000, 92900], [2000, 163200]]
+      },
+      {
+       "name": "Reste du monde",
+       "countries": ["*"],
+       "minDays": 7,
+       "maxDays": 15,
+       "rates": [[20, 11600], [150, 26600], [500, 54100], [1000, 99500], [2000, 175900]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sapo",
+   "name": "South African Post Office",
+   "type": "POSTAL",
+   "origins": ["ZA"],
+   "currency": "ZAR",
+   "priceBasis": "TTC",
+   "source": "https://mybroadband.co.za/news/government/630354-post-office-hikes-prices.html",
+   "validFrom": "2026-04-01",
+   "note": "Tarif par format (DL, B5, B4) ramené au poids ; international non relevé.",
+   "services": [
+    {
+     "id": "standard",
+     "name": "Standard letter",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 10,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[50, 7.1], [500, 14.25], [2000, 17.4]]
+      }
+     ]
+    },
+    {
+     "id": "fast-mail",
+     "name": "Fast Mail",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 4,
+     "zones": [
+      {
+       "name": "National",
+       "countries": ["*"],
+       "rates": [[50, 11.45]]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "letterstream",
+   "name": "LetterStream",
+   "type": "ONLINE",
+   "origins": ["*"],
+   "postsFrom": "US",
+   "currency": "USD",
+   "priceBasis": "TTC",
+   "source": "https://www.letterstream.com/pricing",
+   "validFrom": "2026-09-25",
+   "note": "Imprimé et posté aux États-Unis. Couleur : +0,32 $ par face.",
+   "services": [
+    {
+     "id": "first-class",
+     "name": "First-Class Letter",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 5,
+     "unit": "SHEET",
+     "included": 1,
+     "max": 50,
+     "zones": [
+      {
+       "name": "États-Unis",
+       "countries": ["*"],
+       "base": 1.27,
+       "extra": 0.12,
+       "colorBase": 1.59,
+       "colorExtra": 0.44
+      }
+     ]
+    },
+    {
+     "id": "certified",
+     "name": "Certified Mail",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 3,
+     "maxDays": 5,
+     "unit": "SHEET",
+     "included": 1,
+     "max": 50,
+     "zones": [
+      {
+       "name": "États-Unis",
+       "countries": ["*"],
+       "base": 8.63,
+       "extra": 0.12,
+       "colorBase": 8.95,
+       "colorExtra": 0.44
+      }
+     ]
+    },
+    {
+     "id": "international-registered",
+     "name": "International Registered",
+     "scope": "INTERNATIONAL",
+     "tracking": true,
+     "registered": true,
+     "minDays": 2,
+     "maxDays": 5,
+     "unit": "SHEET",
+     "included": 1,
+     "max": 50,
+     "zones": [
+      {
+       "name": "International",
+       "countries": ["*"],
+       "minDays": 7,
+       "maxDays": 21,
+       "base": 37.93,
+       "extra": 0.12,
+       "colorBase": 38.25,
+       "colorExtra": 0.44
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "japanpost-webletter",
+   "name": "Japan Post Webレター",
+   "type": "ONLINE",
+   "origins": ["*"],
+   "postsFrom": "JP",
+   "currency": "JPY",
+   "priceBasis": "TTC",
+   "source": "https://www.post.japanpost.jp/service/send/domestic/web/webletter/price.html",
+   "validFrom": "2026-09-25",
+   "note": "Envoi au Japon uniquement, 8 pages maximum.",
+   "services": [
+    {
+     "id": "webletter",
+     "name": "Webレター",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 4,
+     "unit": "PAGE",
+     "included": 1,
+     "max": 8,
+     "zones": [
+      {
+       "name": "Japon",
+       "countries": ["*"],
+       "base": 129,
+       "extra": 6,
+       "colorBase": 190,
+       "colorExtra": 67
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "postaonline",
+   "name": "Poste Italiane Postaonline",
+   "type": "ONLINE",
+   "origins": ["*"],
+   "postsFrom": "IT",
+   "currency": "EUR",
+   "priceBasis": "TTC (impression soumise à TVA)",
+   "source": "https://www.media.poste.it/828e7ffc-0546-471a-bafe-e8a3318b1388/file/listino_postaonline_consumer",
+   "validFrom": "2026-05-01",
+   "note": "Imprimé et posté en Italie.",
+   "services": [
+    {
+     "id": "posta-ordinaria-online",
+     "name": "Posta Ordinaria Online",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 4,
+     "maxDays": 6,
+     "unit": "SHEET",
+     "included": 1,
+     "max": 50,
+     "zones": [
+      {
+       "name": "Italie",
+       "countries": ["*"],
+       "base": 1.32,
+       "extra": 0.06
+      }
+     ]
+    },
+    {
+     "id": "raccomandata-online",
+     "name": "Raccomandata Online",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "registered": true,
+     "minDays": 4,
+     "maxDays": 6,
+     "unit": "SHEET",
+     "included": 1,
+     "max": 50,
+     "zones": [
+      {
+       "name": "Italie",
+       "countries": ["*"],
+       "base": 4.52,
+       "extra": 0.06
+      }
+     ]
+    },
+    {
+     "id": "posta-ordinaria-online-int",
+     "name": "Posta Ordinaria Online internazionale",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "unit": "SHEET",
+     "included": 1,
+     "max": 3,
+     "zones": [
+      {
+       "name": "Zona 1 (Europe et Méditerranée)",
+       "countries": ["@EUROPE", "@MEDITERRANEAN"],
+       "minDays": 4,
+       "maxDays": 8,
+       "base": 1.57,
+       "extra": 0.06
+      },
+      {
+       "name": "Zona 3 (Océanie)",
+       "countries": ["@OCEANIA"],
+       "minDays": 7,
+       "maxDays": 15,
+       "base": 3.57,
+       "extra": 0.06
+      },
+      {
+       "name": "Zona 2 (Afrique, Asie, Amériques)",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "base": 2.77,
+       "extra": 0.06
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "postmydoc",
+   "name": "PostMyDoc",
+   "type": "ONLINE",
+   "origins": ["*"],
+   "postsFrom": "AU",
+   "currency": "AUD",
+   "priceBasis": "TTC",
+   "source": "https://postmydoc.au/pricing/",
+   "validFrom": "2026-09-25",
+   "note": "Imprimé et posté en Australie, 10 pages incluses.",
+   "services": [
+    {
+     "id": "standard",
+     "name": "Lettre standard",
+     "scope": "DOMESTIC",
+     "tracking": false,
+     "minDays": 3,
+     "maxDays": 7,
+     "unit": "PAGE",
+     "included": 10,
+     "max": 100,
+     "zones": [
+      {
+       "name": "Australie",
+       "countries": ["*"],
+       "base": 8.95,
+       "extra": 0.2,
+       "colorBase": 11.95,
+       "colorExtra": 0.45
+      }
+     ]
+    },
+    {
+     "id": "tracked",
+     "name": "Lettre suivie",
+     "scope": "DOMESTIC",
+     "tracking": true,
+     "minDays": 3,
+     "maxDays": 7,
+     "unit": "PAGE",
+     "included": 10,
+     "max": 100,
+     "zones": [
+      {
+       "name": "Australie",
+       "countries": ["*"],
+       "base": 12.95,
+       "extra": 0.2,
+       "colorBase": 15.95,
+       "colorExtra": 0.45
+      }
+     ]
+    },
+    {
+     "id": "international",
+     "name": "Lettre internationale",
+     "scope": "INTERNATIONAL",
+     "tracking": false,
+     "minDays": 2,
+     "maxDays": 5,
+     "unit": "PAGE",
+     "included": 10,
+     "max": 100,
+     "zones": [
+      {
+       "name": "International",
+       "countries": ["*"],
+       "minDays": 6,
+       "maxDays": 15,
+       "base": 11.95,
+       "extra": 0.2,
+       "colorBase": 14.95,
+       "colorExtra": 0.45
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

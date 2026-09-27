@@ -22,4 +22,5 @@ jobs:
         working-directory: frontend
       - run: mvn -B verify
         working-directory: backend
+      - run: bash -n deploy/harden-vps.sh && python3 deploy/test-hardening.py
       - run: docker build -t postcompare:ci .
