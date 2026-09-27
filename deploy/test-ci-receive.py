@@ -21,7 +21,14 @@ class ReceiverTest(unittest.TestCase):
             (base / 'releases').mkdir(parents=True)
             mock.mkdir()
             previous = base / 'releases' / 'previous.jar'
-            previous.write_bytes(b'previous version')
+            previous_revision = 'c' * 40
+            with zipfile.ZipFile(previous, 'w') as jar:
+                jar.writestr('BOOT-INF/classes/static/index.html', 'Previous page')
+                if scenario != 'legacy':
+                    jar.writestr('BOOT-INF/classes/static/version.json', json.dumps({'commit': previous_revision}))
+            previous_bytes = previous.read_bytes()
+            served = root / 'served'
+            served.write_text(previous_revision)
             current = base / 'current.jar'
             current.symlink_to(previous)
             calls = root / 'calls'
@@ -31,13 +38,24 @@ case "${@: -1}" in
   */commits/main) printf '{"sha":"%s"}' "$MAIN_SHA";;
   */actuator/health)
     if [[ "$UNHEALTHY" == yes ]]; then exit 22; fi
-    if [[ "$RECOVER" == yes && "$(readlink "$CURRENT")" != */previous.jar ]]; then exit 22; fi
+    if [[ "$RECOVER" == yes && $(grep -c 'restart postcompare' "$CALLS") -lt 2 ]]; then exit 22; fi
     printf '{"status":"UP"}';;
-  */version.json) printf '{"commit":"%s"}' "$MAIN_SHA";;
+  */version.json) printf '{"commit":"%s"}' "$(cat "$SERVED")";;
+  http://127.0.0.1:8080/) printf 'Previous page';;
   *) exit 1;;
 esac
 ''',
-                'systemctl': '#!/bin/bash\nprintf "%s\\n" "$*" >> "$CALLS"\nif [[ "$RESTART_FAIL" == yes && "$1" == restart ]]; then exit 7; fi\n',
+                'systemctl': '''#!/bin/bash
+printf '%s\\n' "$*" >> "$CALLS"
+if [[ "$1" == restart ]]; then
+  if [[ "$RESTART_FAIL" == yes ]]; then exit 7; fi
+  if [[ "$(readlink "$CURRENT")" == */previous.jar && "$STUCK" != yes ]]; then
+    printf '%s' "$PREVIOUS_REVISION" > "$SERVED"
+  else
+    printf '%s' "$MAIN_SHA" > "$SERVED"
+  fi
+fi
+''',
                 'sleep': '#!/bin/bash\nexit 0\n',
             }
             for name, body in commands.items():
@@ -57,20 +75,27 @@ esac
             if scenario == 'invalid-command':
                 command = 'deploy ' + REVISION + '; touch /tmp/never-created'
             env = dict(os.environ, PATH=str(mock) + ':' + os.environ['PATH'], CALLS=str(calls), MAIN_SHA='b' * 40 if scenario == 'stale' else REVISION, UNHEALTHY='yes' if scenario == 'unhealthy' else 'no')
-            env.update(CURRENT=str(current), RECOVER='yes' if scenario == 'recovered' else 'no', RESTART_FAIL='yes' if scenario == 'restart-failed' else 'no')
+            env.update(CURRENT=str(current), SERVED=str(served), PREVIOUS_REVISION=previous_revision,
+                       RECOVER='yes' if scenario in ('recovered', 'wrong-rollback-revision', 'legacy') else 'no',
+                       STUCK='yes' if scenario == 'wrong-rollback-revision' else 'no',
+                       RESTART_FAIL='yes' if scenario == 'restart-failed' else 'no')
             result = subprocess.run(['bash', str(receiver), command], input=artifact, env=env, capture_output=True)
             if scenario == 'success':
                 self.assertEqual(result.returncode, 0, result.stderr.decode())
                 self.assertNotEqual(current.resolve(), previous)
                 self.assertEqual(current.read_bytes(), artifact)
-                self.assertEqual(previous.read_bytes(), b'previous version')
+                self.assertEqual(previous.read_bytes(), previous_bytes)
             else:
                 self.assertNotEqual(result.returncode, 0)
                 self.assertEqual(current.resolve(), previous)
-                if scenario in ('unhealthy', 'recovered', 'restart-failed'):
+                if scenario in ('unhealthy', 'recovered', 'restart-failed', 'wrong-rollback-revision', 'legacy'):
                     self.assertEqual(calls.read_text().count('restart postcompare'), 2)
-                    expected_message = 'Previous JAR is not healthy' if scenario == 'unhealthy' else 'Previous JAR healthy'
+                    expected_message = ('Previous JAR is not healthy' if scenario in ('unhealthy', 'wrong-rollback-revision')
+                                        else 'Previous legacy JAR healthy' if scenario == 'legacy' else 'Previous JAR healthy')
                     self.assertIn(expected_message, result.stderr.decode())
+                    if scenario == 'wrong-rollback-revision':
+                        self.assertEqual(served.read_text(), REVISION)
+                        self.assertNotIn('Previous JAR healthy', result.stderr.decode())
                     if scenario == 'restart-failed':
                         self.assertEqual(result.returncode, 7)
                         self.assertIn('Rollback restart failed', result.stderr.decode())
@@ -79,7 +104,7 @@ esac
             self.assertEqual(list((base / 'releases').glob('.incoming.*')), [])
 
     def test_receiver(self):
-        for scenario in ('success', 'invalid-command', 'stale', 'wrong-hash', 'wrong-metadata', 'unhealthy', 'recovered', 'restart-failed'):
+        for scenario in ('success', 'invalid-command', 'stale', 'wrong-hash', 'wrong-metadata', 'unhealthy', 'recovered', 'restart-failed', 'wrong-rollback-revision', 'legacy'):
             with self.subTest(scenario=scenario):
                 self.run_receiver(scenario)
 
