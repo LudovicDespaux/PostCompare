@@ -52,7 +52,7 @@ public class PrintAndMailProvider implements MailProvider {
                 + "Affranchissement estimé au tarif public La Poste ; Merci Facteur annonce parfois moins cher."
                 + (r.color() ? " Surcoût couleur non précisé sur la grille publique." : ""),
             "Impression + enveloppe + affranchissement", "TTC",
-            "https://www.merci-facteur.com/tarifs.php", COLLECTED));
+            "https://www.merci-facteur.com/", "https://www.merci-facteur.com/tarifs.php", COLLECTED));
     }
 
     private static final int[][] E_LETTRE = { {3, 160, 50}, {7, 375, 100}, {17, 908, 200}, {30, 1138, 400} };
@@ -67,7 +67,7 @@ public class PrintAndMailProvider implements MailProvider {
             return Optional.of(new Quote("laposte-elettre-rouge", "La Poste", "e-lettre rouge", "PRINT_AND_MAIL",
                 total, "EUR", total, "EUR", 1, 2, r.tracking(),
                 "Lettre déposée en ligne avant 20 h, imprimée et distribuée à partir du lendemain. France uniquement.",
-                "Impression + enveloppe + affranchissement", "TTC", "https://www.laposte.fr/tarifs-e-lettre-rouge", COLLECTED));
+                "Impression + enveloppe + affranchissement", "TTC", "https://www.laposte.fr/lettre-simple-et-suivie-en-ligne", "https://www.laposte.fr/tarifs-e-lettre-rouge", COLLECTED));
         }
         return Optional.empty();
     }

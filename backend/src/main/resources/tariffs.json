@@ -48,7 +48,7 @@
  },
  "carriers": [
   {
-   "id": "laposte",
+   "id": "laposte", "website": "https://www.laposte.fr/",
    "name": "La Poste",
    "type": "POSTAL",
    "origins": ["FR"],
@@ -173,7 +173,7 @@
    ]
   },
   {
-   "id": "deutschepost",
+   "id": "deutschepost", "website": "https://www.deutschepost.de/",
    "name": "Deutsche Post",
    "type": "POSTAL",
    "origins": ["DE"],
@@ -261,7 +261,7 @@
    ]
   },
   {
-   "id": "royalmail",
+   "id": "royalmail", "website": "https://www.royalmail.com/",
    "name": "Royal Mail",
    "type": "POSTAL",
    "origins": ["GB"],
@@ -362,7 +362,7 @@
    ]
   },
   {
-   "id": "posteitaliane",
+   "id": "posteitaliane", "website": "https://www.poste.it/",
    "name": "Poste Italiane",
    "type": "POSTAL",
    "origins": ["IT"],
@@ -464,7 +464,7 @@
    ]
   },
   {
-   "id": "correos",
+   "id": "correos", "website": "https://www.correos.es/",
    "name": "Correos",
    "type": "POSTAL",
    "origins": ["ES"],
@@ -554,7 +554,7 @@
    ]
   },
   {
-   "id": "bpost",
+   "id": "bpost", "website": "https://www.bpost.be/",
    "name": "bpost",
    "type": "POSTAL",
    "origins": ["BE"],
@@ -634,7 +634,7 @@
    ]
   },
   {
-   "id": "postnl",
+   "id": "postnl", "website": "https://www.postnl.nl/",
    "name": "PostNL",
    "type": "POSTAL",
    "origins": ["NL"],
@@ -699,7 +699,7 @@
    ]
   },
   {
-   "id": "swisspost",
+   "id": "swisspost", "website": "https://www.post.ch/",
    "name": "La Poste suisse",
    "type": "POSTAL",
    "origins": ["CH"],
@@ -794,7 +794,7 @@
    ]
   },
   {
-   "id": "postat",
+   "id": "postat", "website": "https://www.post.at/",
    "name": "Österreichische Post",
    "type": "POSTAL",
    "origins": ["AT"],
@@ -905,7 +905,7 @@
    ]
   },
   {
-   "id": "ctt",
+   "id": "ctt", "website": "https://www.ctt.pt/",
    "name": "CTT Correios de Portugal",
    "type": "POSTAL",
    "origins": ["PT"],
@@ -1008,7 +1008,7 @@
    ]
   },
   {
-   "id": "anpost",
+   "id": "anpost", "website": "https://www.anpost.com/",
    "name": "An Post",
    "type": "POSTAL",
    "origins": ["IE"],
@@ -1058,7 +1058,7 @@
    ]
   },
   {
-   "id": "postlu",
+   "id": "postlu", "website": "https://www.post.lu/",
    "name": "POST Luxembourg",
    "type": "POSTAL",
    "origins": ["LU"],
@@ -1133,7 +1133,7 @@
    ]
   },
   {
-   "id": "postnord-se",
+   "id": "postnord-se", "website": "https://www.postnord.se/en/private/sending",
    "name": "PostNord Suède",
    "type": "POSTAL",
    "origins": ["SE"],
@@ -1182,7 +1182,7 @@
    ]
   },
   {
-   "id": "posti",
+   "id": "posti", "website": "https://www.posti.fi/",
    "name": "Posti",
    "type": "POSTAL",
    "origins": ["FI"],
@@ -1253,7 +1253,7 @@
    ]
   },
   {
-   "id": "ceskaposta",
+   "id": "ceskaposta", "website": "https://www.ceskaposta.cz/",
    "name": "Česká pošta",
    "type": "POSTAL",
    "origins": ["CZ"],
@@ -1295,7 +1295,7 @@
    ]
   },
   {
-   "id": "postaromana",
+   "id": "postaromana", "website": "https://www.posta-romana.ro/",
    "name": "Poșta Română",
    "type": "POSTAL",
    "origins": ["RO"],
@@ -1368,7 +1368,7 @@
    ]
   },
   {
-   "id": "usps",
+   "id": "usps", "website": "https://www.usps.com/",
    "name": "USPS",
    "type": "POSTAL",
    "origins": ["US"],
@@ -1411,7 +1411,7 @@
    ]
   },
   {
-   "id": "canadapost",
+   "id": "canadapost", "website": "https://www.canadapost-postescanada.ca/cpc/fr/personnel.page",
    "name": "Postes Canada",
    "type": "POSTAL",
    "origins": ["CA"],
@@ -1460,7 +1460,7 @@
    ]
   },
   {
-   "id": "auspost",
+   "id": "auspost", "website": "https://auspost.com.au/",
    "name": "Australia Post",
    "type": "POSTAL",
    "origins": ["AU"],
@@ -1531,7 +1531,7 @@
    ]
   },
   {
-   "id": "japanpost",
+   "id": "japanpost", "website": "https://www.post.japanpost.jp/index_en.html",
    "name": "Japan Post",
    "type": "POSTAL",
    "origins": ["JP"],
@@ -1588,7 +1588,7 @@
    ]
   },
   {
-   "id": "dhl",
+   "id": "dhl", "website": "https://www.dhl.com/fr-fr/home.html",
    "name": "DHL Express",
    "type": "EXPRESS",
    "origins": ["FR"],
@@ -1666,7 +1666,7 @@
    ]
   },
   {
-   "id": "dao",
+   "id": "dao", "website": "https://dao.as/privat-breve/",
    "name": "dao (ex-PostNord Danemark)",
    "type": "POSTAL",
    "origins": ["DK"],
@@ -1742,7 +1742,7 @@
    ]
   },
   {
-   "id": "posten-no",
+   "id": "posten-no", "website": "https://www.posten.no/sende/brev/vanlig",
    "name": "Posten Norge",
    "type": "POSTAL",
    "origins": ["NO"],
@@ -1770,7 +1770,7 @@
    ]
   },
   {
-   "id": "pocztapolska",
+   "id": "pocztapolska", "website": "https://www.poczta-polska.pl/",
    "name": "Poczta Polska",
    "type": "POSTAL",
    "origins": ["PL"],
@@ -1829,7 +1829,7 @@
    ]
   },
   {
-   "id": "magyarposta",
+   "id": "magyarposta", "website": "https://www.posta.hu/",
    "name": "Magyar Posta",
    "type": "POSTAL",
    "origins": ["HU"],
@@ -1936,7 +1936,7 @@
    ]
   },
   {
-   "id": "ptt",
+   "id": "ptt", "website": "https://www.ptt.gov.tr/",
    "name": "PTT",
    "type": "POSTAL",
    "origins": ["TR"],
@@ -1988,7 +1988,7 @@
    ]
   },
   {
-   "id": "elta",
+   "id": "elta", "website": "https://www.elta.gr/",
    "name": "ELTA Hellenic Post",
    "type": "POSTAL",
    "origins": ["GR"],
@@ -2049,7 +2049,7 @@
    ]
   },
   {
-   "id": "slovenskaposta",
+   "id": "slovenskaposta", "website": "https://www.posta.sk/",
    "name": "Slovenská pošta",
    "type": "POSTAL",
    "origins": ["SK"],
@@ -2107,7 +2107,7 @@
    ]
   },
   {
-   "id": "latvijaspasts",
+   "id": "latvijaspasts", "website": "https://pasts.lv/",
    "name": "Latvijas Pasts",
    "type": "POSTAL",
    "origins": ["LV"],
@@ -2135,7 +2135,7 @@
    ]
   },
   {
-   "id": "nzpost",
+   "id": "nzpost", "website": "https://www.nzpost.co.nz/",
    "name": "NZ Post",
    "type": "POSTAL",
    "origins": ["NZ"],
@@ -2187,7 +2187,7 @@
    ]
   },
   {
-   "id": "singpost",
+   "id": "singpost", "website": "https://www.singpost.com/",
    "name": "SingPost",
    "type": "POSTAL",
    "origins": ["SG"],
@@ -2215,7 +2215,7 @@
    ]
   },
   {
-   "id": "hongkongpost",
+   "id": "hongkongpost", "website": "https://www.hongkongpost.hk/",
    "name": "Hongkong Post",
    "type": "POSTAL",
    "origins": ["HK"],
@@ -2260,7 +2260,7 @@
    ]
   },
   {
-   "id": "indiapost",
+   "id": "indiapost", "website": "https://www.indiapost.gov.in/",
    "name": "India Post",
    "type": "POSTAL",
    "origins": ["IN"],
@@ -2288,7 +2288,7 @@
    ]
   },
   {
-   "id": "koreapost",
+   "id": "koreapost", "website": "https://www.koreapost.go.kr/",
    "name": "Korea Post",
    "type": "POSTAL",
    "origins": ["KR"],
@@ -2370,7 +2370,7 @@
    ]
   },
   {
-   "id": "chunghwapost",
+   "id": "chunghwapost", "website": "https://www.post.gov.tw/",
    "name": "Chunghwa Post",
    "type": "POSTAL",
    "origins": ["TW"],
@@ -2421,7 +2421,7 @@
    ]
   },
   {
-   "id": "thailandpost",
+   "id": "thailandpost", "website": "https://www.thailandpost.co.th/",
    "name": "Thailand Post",
    "type": "POSTAL",
    "origins": ["TH"],
@@ -2449,7 +2449,7 @@
    ]
   },
   {
-   "id": "correios-br",
+   "id": "correios-br", "website": "https://www.correios.com.br/",
    "name": "Correios (Brésil)",
    "type": "POSTAL",
    "origins": ["BR"],
@@ -2493,7 +2493,7 @@
    ]
   },
   {
-   "id": "correosmx",
+   "id": "correosmx", "website": "https://www.correosdemexico.gob.mx/",
    "name": "Correos de México",
    "type": "POSTAL",
    "origins": ["MX"],
@@ -2521,7 +2521,7 @@
    ]
   },
   {
-   "id": "correoargentino",
+   "id": "correoargentino", "website": "https://www.correoargentino.com.ar/",
    "name": "Correo Argentino",
    "type": "POSTAL",
    "origins": ["AR"],
@@ -2579,7 +2579,7 @@
    ]
   },
   {
-   "id": "sapo",
+   "id": "sapo", "website": "https://www.postoffice.co.za/",
    "name": "South African Post Office",
    "type": "POSTAL",
    "origins": ["ZA"],
@@ -2622,7 +2622,7 @@
    ]
   },
   {
-   "id": "letterstream",
+   "id": "letterstream", "website": "https://www.letterstream.com/",
    "name": "LetterStream",
    "type": "ONLINE",
    "origins": ["*"],
@@ -2703,7 +2703,7 @@
    ]
   },
   {
-   "id": "japanpost-webletter",
+   "id": "japanpost-webletter", "website": "https://www.post.japanpost.jp/service/send/domestic/web/webletter/",
    "name": "Japan Post Webレター",
    "type": "ONLINE",
    "origins": ["*"],
@@ -2738,7 +2738,7 @@
    ]
   },
   {
-   "id": "postaonline",
+   "id": "postaonline", "website": "https://www.poste.it/",
    "name": "Poste Italiane Postaonline",
    "type": "ONLINE",
    "origins": ["*"],
@@ -2828,7 +2828,7 @@
    ]
   },
   {
-   "id": "postmydoc",
+   "id": "postmydoc", "website": "https://postmydoc.au/",
    "name": "PostMyDoc",
    "type": "ONLINE",
    "origins": ["*"],

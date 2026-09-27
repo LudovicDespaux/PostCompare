@@ -10,6 +10,8 @@ Les quatre fournisseurs fictifs du prototype ont été remplacés par un **catal
 - 4 opérateurs en ligne dans `backend/src/main/resources/tariffs.json` : LetterStream, Japan Post Webレター, Poste Italiane Postaonline et PostMyDoc.
 - 2 calculs spécifiques dans `PrintAndMailProvider` : Merci Facteur et e-lettre rouge.
 - Résultats en euros avec prix/devise d'origine, périmètre du prix, régime fiscal déclaré, source et date d'effet renseignée.
+- Saisie du nombre de feuilles A4 : environ 5 g par feuille de papier blanc 80 g/m² (0,210 × 0,297 × 80 ≈ 4,99 g), plus une enveloppe estimée à 6 g jusqu’à cinq feuilles, puis 15 g. Le formulaire affiche le poids estimé entre parenthèses. Le recto verso compte deux pages imprimées par feuille ; maximum 50 pages, soit 25 feuilles en recto verso ou 50 en recto. Toutes les faces sont supposées imprimées ; un document avec une dernière face blanche peut donc être surestimé. Référence du format/grammage : [papier A4 80 g/m²](https://www.laposte.fr/boutique/lot-de-5-ramettes-de-500-feuilles-a4-papier-blanc-80gm/p/mp-500027399).
+- Chaque résultat propose un lien visible vers le site officiel du prestataire, dans un nouvel onglet. La source tarifaire reste accessible séparément dans les détails.
 - Filtres dépôt postal / envoi en ligne / express, tri par montant ou délai et exigence facultative de suivi.
 
 La couverture est partielle : certains pays n'ont que du national, un palier ou certaines zones internationales. Pour un pays de départ sans grille postale, les services d'impression restent disponibles selon leur destination réelle.
@@ -82,12 +84,13 @@ Ne pas partager `node_modules` entre Node Windows et Node Linux. Arrêter unique
 
 Pages : entier 1–50 ; poids avec enveloppe : entier 1–2000 g. Le poids fourni sert au dépôt postal ; les services d'impression utilisent leurs unités (page/feuille) et limites. Pour Merci Facteur : environ 5 g par feuille, enveloppe de 6 g ou 15 g au-delà de cinq feuilles. `tracking: true` est une exigence, `false` ne masque pas les offres suivies. Pays inconnus, champs manquants ou nombres invalides : HTTP 400. Route sans offre couverte : HTTP 200 avec `quotes: []`.
 
-Chaque offre expose `id`, `provider`, `service`, `method`, `price`, `currency`, `originalPrice`, `originalCurrency`, `minDays`, `maxDays`, `tracking`, `description`, `priceScope`, `priceBasis`, `source` et `validFrom`. Les montants serveur utilisent `BigDecimal` ; la conversion EUR est arrondie à deux décimales.
+Chaque offre expose `id`, `provider`, `service`, `method`, `price`, `currency`, `originalPrice`, `originalCurrency`, `minDays`, `maxDays`, `tracking`, `description`, `priceScope`, `priceBasis`, `website`, `source` et `validFrom`. Les montants serveur utilisent `BigDecimal` ; la conversion EUR est arrondie à deux décimales.
 
 ## Maintenir le catalogue
 
 Modifier `backend/src/main/resources/tariffs.json` :
 
+- `carriers[].website` : site officiel HTTPS destiné au lien de navigation ; distinct de `source`, qui peut être une grille PDF ou un article tarifaire.
 - `groups` : codes ISO et références `@EU`, `@EUROPE`, etc. Les cycles sont rejetés.
 - `fx.perEuro` : unités de devise pour un euro, taux strictement positifs ; EUR doit valoir 1.
 - `POSTAL` / `EXPRESS` : origines, services `DOMESTIC` ou `INTERNATIONAL`, zones et tranches `[poids maximal inclus en g, prix]`.
