@@ -1,0 +1,81 @@
+name: Reusable single artifact deployment
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        type: string
+        default: release
+      artifact-file:
+        type: string
+        required: true
+      public-url:
+        type: string
+        required: true
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: production
+      url: ${{ inputs.public-url }}
+    concurrency:
+      group: production-${{ github.repository }}
+      cancel-in-progress: false
+    steps:
+      - name: Verify merged PR and CodeRabbit approval
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const repo = context.repo;
+            const branch = await github.rest.repos.getBranch({...repo, branch: 'main'});
+            if (branch.data.commit.sha !== context.sha) throw new Error('A newer main revision exists; refusing stale deployment');
+            const prs = await github.paginate(github.rest.repos.listPullRequestsAssociatedWithCommit, {...repo, commit_sha: context.sha, per_page: 100});
+            const pr = prs.find(p => p.merged_at && p.base.ref === 'main' && p.merge_commit_sha === context.sha);
+            if (!pr) throw new Error('This commit must come from a merged PR');
+            const reviews = await github.paginate(github.rest.pulls.listReviews, {...repo, pull_number: pr.number, per_page: 100});
+            const decisions = reviews.filter(r => r.user?.login === 'coderabbitai[bot]' && ['APPROVED','CHANGES_REQUESTED','DISMISSED'].includes(r.state));
+            const latest = decisions.at(-1);
+            if (!latest || latest.state !== 'APPROVED' || latest.commit_id !== pr.head.sha) throw new Error('Missing CodeRabbit approval of the final PR revision');
+            core.info(`Deploying merged PR #${pr.number}, commit ${context.sha}`);
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: release
+      - name: Transfer tested artifact to restricted receiver
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ vars.DEPLOY_USER }}
+          ARTIFACT_FILE: ${{ inputs.artifact-file }}
+        run: |
+          set -euo pipefail
+          [[ "$ARTIFACT_FILE" =~ ^[a-zA-Z0-9_.-]+$ ]]
+          [[ "$DEPLOY_HOST" =~ ^[a-zA-Z0-9.-]+$ && "$DEPLOY_HOST" != -* ]]
+          [[ "$DEPLOY_USER" =~ ^[a-z_][a-z0-9_-]*$ ]]
+          [[ -n "$SSH_PRIVATE_KEY" && -n "$SSH_KNOWN_HOSTS" ]]
+          umask 077
+          key_dir=$(mktemp -d)
+          trap 'rm -f "$key_dir/key" "$key_dir/known_hosts"; rmdir "$key_dir"' EXIT
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$key_dir/key"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > "$key_dir/known_hosts"
+          artifact="release/$ARTIFACT_FILE"
+          digest=$(sha256sum "$artifact" | cut -d ' ' -f 1)
+          timeout 300 ssh -T -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$key_dir/known_hosts" -o ConnectTimeout=15 \
+            -i "$key_dir/key" "$DEPLOY_USER@$DEPLOY_HOST" \
+            "deploy $GITHUB_SHA $digest" < "$artifact"
+      - name: Verify public release
+        env:
+          PUBLIC_URL: ${{ inputs.public-url }}
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --retry 5 --retry-delay 2 "$PUBLIC_URL/" > /dev/null
+          curl --fail --silent --show-error --retry 5 --retry-delay 2 "$PUBLIC_URL/version.json" |
+            python3 -c 'import json,os,sys; assert json.load(sys.stdin)["commit"] == os.environ["GITHUB_SHA"]'
+

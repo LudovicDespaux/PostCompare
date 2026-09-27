@@ -1,0 +1,55 @@
+name: Reusable verification
+on:
+  workflow_call:
+    inputs:
+      command:
+        type: string
+        required: true
+      artifact-path:
+        type: string
+        required: true
+      node-version:
+        type: string
+        default: '24'
+      java-version:
+        type: string
+        default: ''
+      npm-lock:
+        type: string
+        default: package-lock.json
+      artifact-name:
+        type: string
+        default: release
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+          cache-dependency-path: ${{ inputs.npm-lock }}
+      - if: inputs.java-version != ''
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: ${{ inputs.java-version }}
+      - name: Test and build
+        env:
+          BUILD_COMMAND: ${{ inputs.command }}
+        run: bash -euo pipefail -c "$BUILD_COMMAND"
+      - name: Save tested release
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ${{ inputs.artifact-path }}
+          if-no-files-found: error
+          retention-days: 1
+

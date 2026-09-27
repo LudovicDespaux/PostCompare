@@ -26,7 +26,7 @@ Ce skill accompagne une demande de mise à jour de PostCompare : ce n'est ni un 
 ## Construire et vérifier
 
 - Dans `frontend` : `npm ci`, puis `npm run build`.
-- Ensuite, dans `backend` : JDK 17+, Maven 3.9+, `mvn clean verify`. Le frontend doit être construit **avant** Maven, qui l'intègre au JAR.
+- Depuis la racine : `node scripts/write-build-info.cjs`, puis dans `backend` : JDK 17+, Maven 3.9+, `mvn clean verify`. Le frontend et sa révision doivent être produits **avant** Maven, qui les intègre au JAR.
 - Sous Windows : `npm.cmd`. Ne pas partager `node_modules` avec Linux. Vite peut verrouiller esbuild, Java peut verrouiller le JAR : identifier le processus exact du projet avant de l'arrêter, ou utiliser un build isolé.
 - Maven peut manquer dans PATH : découvrir un runtime existant ou utiliser une distribution officielle ; ne pas dépendre d'un ancien répertoire temporaire.
 - Tester le parcours UI concerné. Distinguer tests locaux, CI, build Docker et vérification du service réellement déployé. Ne pas désactiver des tests pour publier un build en échec.
@@ -42,9 +42,9 @@ Ce skill accompagne une demande de mise à jour de PostCompare : ce n'est ni un 
 
 ## Déploiement
 
-1. Vérifier SSH et l'état des services. Relire les scripts. Ne pas lancer `harden-vps.sh` dans une livraison ordinaire : pare-feu et SSH constituent une opération distincte.
-2. Après synchronisation de `main`, noter le SHA fusionné et reconstruire le frontend puis le backend (`npm ci`, `npm run build`, `mvn clean verify`) depuis ce checkout propre. Avant `deploy/deploy-vps.sh`, vérifier que HEAD est toujours ce SHA, que le catalogue et les assets du JAR correspondent au checkout, puis enregistrer le SHA-256 du JAR testé. Ne pas réutiliser un ancien JAR de `target/`. Ne pas transférer `.env`, `.git`, clés ou base de données du bot.
-3. Conserver la version précédente et le retour arrière. Vérifier la santé du backend puis la bonne page via Nginx ; son reload est asynchrone, donc prévoir de courtes tentatives bornées.
-4. Depuis l'extérieur, vérifier page, assets, pays, scénarios de comparaison adaptés et l'inaccessibilité de `/actuator/health`. Vérifier Palworld et comparer les SHA-256 du JAR local et actif.
+1. Lire `docs/ci-cd.md`. Après fusion, noter le SHA de `main` et suivre le run GitHub Actions `Verify` correspondant. Il reconstruit et teste le code fusionné, conserve l'artefact du même run, vérifie CodeRabbit et déploie via l'environnement `production` limité à `main`. Ne pas lancer un second déploiement local en parallèle.
+2. Attendre les jobs de build et de déploiement. Vérifier que `/version.json` expose le SHA fusionné et que le hash du JAR actif correspond au hash annoncé dans le job. En cas de panne du pipeline, diagnostiquer puis relancer le run sur `main` ; ne pas désactiver les protections ou divulguer les secrets.
+3. Le recours manuel `deploy/deploy-vps.sh` utilise le même récepteur. Avant de l'utiliser, reconstruire depuis un checkout propre du SHA de `main` : frontend, `node scripts/write-build-info.cjs`, puis backend. Vérifier la révision intégrée et le hash du JAR ; ne jamais réutiliser un ancien `target/`. Ne pas transférer `.env`, `.git`, clés ou données du bot.
+4. Vérifier page, assets, pays, comparaisons adaptées et l'inaccessibilité publique de `/actuator/health`. Vérifier l'état de PostCompare, Nginx et Palworld. Le récepteur conserve le JAR précédent et restaure celui-ci si l'activation échoue. Ne pas lancer `harden-vps.sh`, modifier le pare-feu ou réécrire Nginx pendant une livraison ordinaire.
 5. En cas d'échec, restaurer la dernière version fonctionnelle et diagnostiquer. Arrêter après un échec répété non compris, sans multiplier les changements en production.
 6. Livrer les liens PR/site, version déployée, contrôles passés, statut CodeRabbit et limites restantes. Ne pas promettre une sécurité absolue.
