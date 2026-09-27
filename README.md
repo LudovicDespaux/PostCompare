@@ -50,7 +50,9 @@ Compiler le frontend **avant** le backend : Maven intègre `frontend/dist` au JA
 cd frontend
 npm ci
 npm run build
-cd ../backend
+cd ..
+node scripts/write-build-info.cjs
+cd backend
 mvn clean verify
 ```
 
@@ -104,7 +106,11 @@ Prérequis VPS : `openjdk-17-jre-headless`, `nginx`, `curl`. Après un build/tes
 bash deploy/deploy-vps.sh
 ```
 
-Le script transfère le JAR et les configurations, garde les versions dans `/opt/postcompare/releases`, met à jour le lien `current.jar`, puis vérifie la santé et la page via Nginx. Un échec déclenche le retour à la version précédente. Ne pas transférer de secrets, de fichiers `.env` ou de données Palworld.
+Le déploiement habituel est désormais automatique après fusion : le workflow GitHub `Verify` reconstruit et teste le commit de `main`, exige l'approbation CodeRabbit de la PR, puis transmet le JAR via un accès SSH limité à PostCompare. L'environnement `production` n'autorise que `main`. Le récepteur conserve les versions dans `/opt/postcompare/releases`, vérifie hash et révision, puis contrôle la santé et `/version.json`. Un échec d'activation restaure le JAR précédent. Nginx et les autres projets ne sont pas modifiés.
+
+La commande manuelle ci-dessus est un recours via la connexion administrateur et le même récepteur, à utiliser depuis un checkout propre de `main` après un build complet incluant `scripts/write-build-info.cjs`. Elle ne contourne ni le contrôle du SHA de `main` ni les validations du JAR. `activate-release.sh` reste réservé à l'installation initiale du service et de Nginx, pas aux mises à jour ordinaires. Ne pas transférer de secrets, de fichiers `.env` ou de données Palworld.
+
+Voir [la configuration CI/CD et sa réutilisation](docs/ci-cd.md). La version publiée est consultable sur **http://91.134.138.53/version.json**.
 
 ```sh
 ssh ubuntu@91.134.138.53 'systemctl is-active postcompare nginx palworld-bot'
@@ -126,7 +132,7 @@ Le port 8080 est lié à la boucle locale. `deploy/Caddyfile` fournit une altern
 
 ## Cycle des mises à jour et CodeRabbit
 
-Le skill personnel **`$postcompare-release`**, versionné dans `skills/postcompare-release`, exécute : bilan des changements → README → build/tests → PR → examen CodeRabbit → corrections → fusion → déploiement → vérification publique. Exemple : « Utilise $postcompare-release pour publier mes changements. » Il se sélectionne lors d'une demande de mise à jour, sans surveiller automatiquement le disque.
+Le skill personnel **`$postcompare-release`**, versionné dans `skills/postcompare-release`, suit : bilan des changements → README → build/tests → PR → examen CodeRabbit → corrections → fusion → suivi du déploiement GitHub Actions → vérification publique. Exemple : « Utilise $postcompare-release pour publier mes changements. » Il se sélectionne lors d'une demande de mise à jour, sans surveiller automatiquement le disque. GitHub Actions effectue les contrôles et la publication même lorsque Codex est fermé.
 
 CodeRabbit est installé sur GitHub ; `.coderabbit.yaml` demande une revue en français. Une nouvelle PR contient le diff depuis `main`. Attendre la revue et les contrôles du dernier commit avant fusion. Si besoin, commenter une fois `@coderabbitai full review` ; la commande revoit la PR, pas tous les fichiers inchangés. Un accusé de réception n'est pas un rapport terminé.
 

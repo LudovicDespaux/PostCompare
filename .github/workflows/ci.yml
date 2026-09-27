@@ -1,26 +1,39 @@
 name: Verify
-on: [push, pull_request]
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
 permissions:
   contents: read
+  actions: read
+  pull-requests: read
 jobs:
   test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-          cache: maven
-          cache-dependency-path: backend/pom.xml
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-      - run: npm ci && npm run build
-        working-directory: frontend
-      - run: mvn -B verify
-        working-directory: backend
-      - run: bash -n deploy/harden-vps.sh && python3 deploy/test-hardening.py
-      - run: docker build -t postcompare:ci .
+    uses: ./.github/workflows/reusable-verify.yml
+    with:
+      java-version: '17'
+      npm-lock: frontend/package-lock.json
+      artifact-path: backend/target/postcompare-0.1.0.jar
+      command: |
+        cd frontend
+        npm ci
+        npm run build
+        cd ..
+        node scripts/write-build-info.cjs
+        cd backend
+        mvn -B -ntp clean verify
+        cd ..
+        for script in deploy/*.sh; do bash -n "$script"; done
+        python3 deploy/test-hardening.py
+        python3 deploy/test-ci-receive.py
+        docker build -t postcompare:ci .
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    uses: ./.github/workflows/reusable-deploy.yml
+    with:
+      artifact-file: postcompare-0.1.0.jar
+      public-url: http://91.134.138.53
+    secrets: inherit

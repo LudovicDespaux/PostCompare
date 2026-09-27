@@ -1,0 +1,79 @@
+"""Test the actual receiver with isolated filesystem, network and service mocks."""
+import hashlib
+import io
+import json
+import os
+from pathlib import Path
+import subprocess
+import tempfile
+import unittest
+import zipfile
+
+SOURCE = Path(__file__).with_name('ci-receive.sh').read_text()
+REVISION = 'a' * 40
+
+
+class ReceiverTest(unittest.TestCase):
+    def run_receiver(self, scenario):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            base, mock = root / 'app', root / 'bin'
+            (base / 'releases').mkdir(parents=True)
+            mock.mkdir()
+            previous = base / 'releases' / 'previous.jar'
+            previous.write_bytes(b'previous version')
+            current = base / 'current.jar'
+            current.symlink_to(previous)
+            calls = root / 'calls'
+            commands = {
+                'curl': '''#!/bin/bash
+case "${@: -1}" in
+  */commits/main) printf '{"sha":"%s"}' "$MAIN_SHA";;
+  */actuator/health) if [[ "$UNHEALTHY" == yes ]]; then exit 22; fi; printf '{"status":"UP"}';;
+  */version.json) printf '{"commit":"%s"}' "$MAIN_SHA";;
+  *) exit 1;;
+esac
+''',
+                'systemctl': '#!/bin/bash\nprintf "%s\\n" "$*" >> "$CALLS"\n',
+                'sleep': '#!/bin/bash\nexit 0\n',
+            }
+            for name, body in commands.items():
+                path = mock / name
+                path.write_text(body)
+                path.chmod(0o700)
+            script = SOURCE.replace('[[ $EUID -eq 0 && $# -eq 1 ]]', '[[ $# -eq 1 ]]').replace('base=/opt/postcompare', 'base=' + str(base))
+            receiver = root / 'receiver.sh'
+            receiver.write_text(script)
+            stream = io.BytesIO()
+            with zipfile.ZipFile(stream, 'w') as jar:
+                jar.writestr('BOOT-INF/classes/static/index.html', 'PostCompare')
+                jar.writestr('BOOT-INF/classes/static/version.json', json.dumps({'commit': 'b' * 40 if scenario == 'wrong-metadata' else REVISION}))
+            artifact = stream.getvalue()
+            digest = '0' * 64 if scenario == 'wrong-hash' else hashlib.sha256(artifact).hexdigest()
+            command = 'deploy ' + REVISION + ' ' + digest
+            if scenario == 'invalid-command':
+                command = 'deploy ' + REVISION + '; touch /tmp/never-created'
+            env = dict(os.environ, PATH=str(mock) + ':' + os.environ['PATH'], CALLS=str(calls), MAIN_SHA='b' * 40 if scenario == 'stale' else REVISION, UNHEALTHY='yes' if scenario == 'unhealthy' else 'no')
+            result = subprocess.run(['bash', str(receiver), command], input=artifact, env=env, capture_output=True)
+            if scenario == 'success':
+                self.assertEqual(result.returncode, 0, result.stderr.decode())
+                self.assertNotEqual(current.resolve(), previous)
+                self.assertEqual(current.read_bytes(), artifact)
+                self.assertEqual(previous.read_bytes(), b'previous version')
+            else:
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(current.resolve(), previous)
+                if scenario == 'unhealthy':
+                    self.assertEqual(calls.read_text().count('restart postcompare'), 2)
+                else:
+                    self.assertFalse(calls.exists())
+            self.assertEqual(list((base / 'releases').glob('.incoming.*')), [])
+
+    def test_receiver(self):
+        for scenario in ('success', 'invalid-command', 'stale', 'wrong-hash', 'wrong-metadata', 'unhealthy'):
+            with self.subTest(scenario=scenario):
+                self.run_receiver(scenario)
+
+
+if __name__ == '__main__':
+    unittest.main()
