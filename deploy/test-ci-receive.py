@@ -37,10 +37,11 @@ class ReceiverTest(unittest.TestCase):
 case "${@: -1}" in
   */commits/main) printf '{"sha":"%s"}' "$MAIN_SHA";;
   */actuator/health)
+    [[ -s "$SERVED" ]] || exit 7
     if [[ "$UNHEALTHY" == yes ]]; then exit 22; fi
     if [[ "$RECOVER" == yes && $(grep -c 'restart postcompare' "$CALLS") -lt 2 ]]; then exit 22; fi
     printf '{"status":"UP"}';;
-  */version.json) printf '{"commit":"%s"}' "$(cat "$SERVED")";;
+  */version.json) [[ -s "$SERVED" ]] || exit 7; printf '{"commit":"%s"}' "$(cat "$SERVED")";;
   http://127.0.0.1:8080/) printf 'Previous page';;
   *) exit 1;;
 esac
@@ -48,7 +49,7 @@ esac
                 'systemctl': '''#!/bin/bash
 printf '%s\\n' "$*" >> "$CALLS"
 if [[ "$1" == restart ]]; then
-  if [[ "$RESTART_FAIL" == yes ]]; then exit 7; fi
+  if [[ "$RESTART_FAIL" == yes ]]; then : > "$SERVED"; exit 7; fi
   if [[ "$(readlink "$CURRENT")" == */previous.jar && "$STUCK" != yes ]]; then
     printf '%s' "$PREVIOUS_REVISION" > "$SERVED"
   else
@@ -90,7 +91,7 @@ fi
                 self.assertEqual(current.resolve(), previous)
                 if scenario in ('unhealthy', 'recovered', 'restart-failed', 'wrong-rollback-revision', 'legacy'):
                     self.assertEqual(calls.read_text().count('restart postcompare'), 2)
-                    expected_message = ('Previous JAR is not healthy' if scenario in ('unhealthy', 'wrong-rollback-revision')
+                    expected_message = ('Previous JAR is not healthy' if scenario in ('unhealthy', 'wrong-rollback-revision', 'restart-failed')
                                         else 'legacy rollback revision cannot be verified' if scenario == 'legacy' else 'Previous JAR healthy')
                     self.assertIn(expected_message, result.stderr.decode())
                     if scenario == 'wrong-rollback-revision':
