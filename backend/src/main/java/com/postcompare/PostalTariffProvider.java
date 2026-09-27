@@ -36,6 +36,6 @@ public class PostalTariffProvider implements MailProvider {
                 + (c.note() != null ? " " + c.note() : "");
         return new Quote(c.id() + "-" + s.id(), c.name(), s.name(), method, tariffs.toEuro(price, c.currency()), "EUR",
             price, c.currency(), min, max, s.tracking(), description, "Affranchissement seul", c.priceBasis(),
-            c.source(), c.validFrom());
+            c.website(), c.source(), c.validFrom());
     }
 }

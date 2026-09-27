@@ -104,6 +104,9 @@ public class TariffCatalog {
             if (!Set.of("POSTAL", "EXPRESS", "ONLINE").contains(c.type()))
                 throw new IllegalStateException("Type invalide : " + c.id());
             LocalDate.parse(c.validFrom());
+            URI website = URI.create(Objects.requireNonNull(c.website(), "Site officiel requis : " + c.id()));
+            if (!"https".equals(website.getScheme()) || website.getHost() == null || website.getUserInfo() != null)
+                throw new IllegalStateException("Site officiel HTTPS requis : " + c.id());
             URI source = URI.create(c.source());
             if (!"https".equals(source.getScheme()) || source.getHost() == null)
                 throw new IllegalStateException("Source HTTPS requise : " + c.id());

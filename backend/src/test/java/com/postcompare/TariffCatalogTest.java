@@ -7,6 +7,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TariffCatalogTest {
+    @Test void unsafeProviderWebsitesAreRejected() throws Exception {
+        for (String website : new String[]{"javascript:alert(1)", "http://example.com", "https://user@example.com"}) {
+            ObjectNode data = data();
+            ((ObjectNode) data.at("/carriers/0")).put("website", website);
+            assertThrows(IllegalStateException.class, () -> load(data));
+        }
+    }
     private final ObjectMapper mapper = new ObjectMapper();
     private ObjectNode data() throws Exception {
         try (InputStream in = getClass().getResourceAsStream("/tariffs.json")) {

@@ -31,7 +31,7 @@ public class QuoteController {
     @GetMapping("/carriers") public List<Map<String, Object>> carriers() {
         return tariffs.catalog().carriers().stream().map(c -> Map.<String, Object>of("id", c.id(), "name", c.name(),
             "type", c.type(), "origins", c.online() ? List.of(c.postsFrom()) : c.origins(),
-            "source", c.source(), "validFrom", c.validFrom())).toList();
+            "website", c.website(), "source", c.source(), "validFrom", c.validFrom())).toList();
     }
 
     @PostMapping("/quotes") public QuoteResponse quotes(@Valid @RequestBody QuoteRequest request) {

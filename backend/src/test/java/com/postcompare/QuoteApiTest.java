@@ -12,6 +12,12 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest @AutoConfigureMockMvc
 class QuoteApiTest {
+    @Test void canadaResultsLinkToOfficialProviders() throws Exception {
+        quote("CA", "RO", 2, 11, false).andExpect(status().isOk())
+            .andExpect(jsonPath("$.quotes[*].website", everyItem(startsWith("https://"))))
+            .andExpect(jsonPath("$.quotes[?(@.provider=='Postes Canada')].website")
+                .value(contains("https://www.canadapost-postescanada.ca/cpc/fr/personnel.page")));
+    }
     @Autowired MockMvc mvc;
 
     private ResultActions quote(String origin, String destination, int pages, int weight, boolean tracking) throws Exception {

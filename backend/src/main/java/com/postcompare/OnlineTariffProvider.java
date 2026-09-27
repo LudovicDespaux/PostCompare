@@ -50,6 +50,6 @@ public class OnlineTariffProvider implements MailProvider {
             + (c.note() != null ? " " + c.note() : "");
         return new Quote(c.id() + "-" + s.id(), c.name(), s.name(), "PRINT_AND_MAIL", tariffs.toEuro(price, c.currency()),
             "EUR", price, c.currency(), min, max, s.tracking(), description, "Impression + enveloppe + affranchissement",
-            c.priceBasis(), c.source(), c.validFrom());
+            c.priceBasis(), c.website(), c.source(), c.validFrom());
     }
 }

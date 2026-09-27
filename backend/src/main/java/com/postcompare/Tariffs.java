@@ -17,7 +17,7 @@ public final class Tariffs {
      * from anywhere, {@code origins} = ["*"], printed and posted from {@code postsFrom}).
      */
     public record Carrier(String id, String name, String type, List<String> origins, String postsFrom, String currency,
-                          String priceBasis, String source, String validFrom, String note, List<Service> services) {
+                          String priceBasis, String website, String source, String validFrom, String note, List<Service> services) {
         boolean online() { return "ONLINE".equals(type); }
     }
 
