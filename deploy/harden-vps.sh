@@ -128,7 +128,12 @@ trap 'bash "$STATE/rollback.sh" --force' ERR
 # --- Pare-feu
 # Garder une règle SSH d'urgence pendant le remplacement des anciennes règles.
 EMERGENCY="$(basename "$STATE")-ssh"
-ufw insert 1 allow "${SSH_PORT}/tcp" comment "$EMERGENCY"
+existing_rules="$(ufw show added)"
+if grep -q '^ufw ' <<< "$existing_rules"; then
+  ufw insert 1 allow "${SSH_PORT}/tcp" comment "$EMERGENCY"
+else
+  ufw allow "${SSH_PORT}/tcp" comment "$EMERGENCY"
+fi
 ufw default deny incoming
 ufw default allow outgoing
 ufw --force enable

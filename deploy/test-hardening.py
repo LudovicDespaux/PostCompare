@@ -70,12 +70,14 @@ class HardeningTest(unittest.TestCase):
             root = Path(tmp)
             mock = root / "ufw"
             mock.write_text('''#!/usr/bin/env bash
-if [[ "$1 $2" == "status numbered" ]]; then
+if [[ "$1 $2" == "show added" ]]; then
+  echo 'ufw allow 5432/tcp'
+elif [[ "$1 $2" == "status numbered" ]]; then
   if [[ ! -f "$TEST_STATE" ]]; then
     touch "$TEST_STATE"
     printf '%s\n' '[ 1] 22/tcp ALLOW IN Anywhere # test-state-ssh' '[ 2] 5432/tcp ALLOW IN Anywhere' '[ 3] 22/tcp (v6) ALLOW IN Anywhere (v6) # test-state-ssh' '[ 4] 5432/tcp (v6) ALLOW IN Anywhere (v6)'
   else
-    printf '%s\n' '[ 1] 22/tcp ALLOW IN Anywhere # test-state-ssh' '[ 2] 22/tcp LIMIT IN Anywhere' '[ 3] 22/tcp (v6) ALLOW IN Anywhere (v6) # test-state-ssh' '[ 4] 80/tcp ALLOW IN Anywhere'
+    printf '%s\n' '[ 1] 22/tcp ALLOW IN Anywhere # test-state-ssh' '[ 2] 22/tcp (v6) ALLOW IN Anywhere (v6) # test-state-ssh' '[ 3] 22/tcp LIMIT IN Anywhere' '[ 4] 80/tcp ALLOW IN Anywhere'
   fi
 else
   printf '%s\n' "$*" >> "$TEST_LOG"
@@ -85,10 +87,25 @@ fi
             env = dict(os.environ, PATH=str(root) + ":" + os.environ["PATH"], TEST_STATE=str(root / "status"), TEST_LOG=str(root / "calls"), STATE="/root/test-state", SSH_PORT="22", EXTRA_PORTS="8211/udp")
             subprocess.run(["bash", "-euc", firewall], env=env, check=True)
             calls = (root / "calls").read_text().splitlines()
-            self.assertEqual([line for line in calls if line.startswith("--force delete")], ["--force delete 4", "--force delete 2", "--force delete 3", "--force delete 1"])
+            self.assertEqual([line for line in calls if line.startswith("--force delete")], ["--force delete 4", "--force delete 2", "--force delete 2", "--force delete 1"])
             self.assertLess(calls.index("insert 1 allow 22/tcp comment test-state-ssh"), calls.index("--force delete 4"))
-            self.assertLess(calls.index("limit 22/tcp comment SSH"), calls.index("--force delete 3"))
+            self.assertLess(calls.index("limit 22/tcp comment SSH"), calls.index("--force delete 2", calls.index("limit 22/tcp comment SSH")))
             self.assertIn("allow 8211/udp", calls)
+
+    def test_emergency_rule_on_empty_firewall(self):
+        insertion = SOURCE.split("# --- Pare-feu\n", 1)[1].split("ufw default deny incoming", 1)[0]
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            mock = root / "ufw"
+            mock.write_text('''#!/usr/bin/env bash
+if [[ "$1 $2" == "show added" ]]; then exit 0; fi
+if [[ "$1" == insert ]]; then exit 1; fi
+printf '%s\n' "$*" >> "$TEST_LOG"
+''')
+            mock.chmod(0o700)
+            env = dict(os.environ, PATH=str(root) + ":" + os.environ["PATH"], TEST_LOG=str(root / "calls"), STATE="/root/test-state", SSH_PORT="22")
+            subprocess.run(["bash", "-euc", insertion], env=env, check=True)
+            self.assertEqual((root / "calls").read_text().strip(), "allow 22/tcp comment test-state-ssh")
 
 
 if __name__ == "__main__":
