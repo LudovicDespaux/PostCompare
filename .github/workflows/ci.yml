@@ -36,4 +36,3 @@ jobs:
     with:
       artifact-file: postcompare-0.1.0.jar
       public-url: http://91.134.138.53
-    secrets: inherit

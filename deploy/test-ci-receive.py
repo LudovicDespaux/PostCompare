@@ -29,12 +29,15 @@ class ReceiverTest(unittest.TestCase):
                 'curl': '''#!/bin/bash
 case "${@: -1}" in
   */commits/main) printf '{"sha":"%s"}' "$MAIN_SHA";;
-  */actuator/health) if [[ "$UNHEALTHY" == yes ]]; then exit 22; fi; printf '{"status":"UP"}';;
+  */actuator/health)
+    if [[ "$UNHEALTHY" == yes ]]; then exit 22; fi
+    if [[ "$RECOVER" == yes && "$(readlink "$CURRENT")" != */previous.jar ]]; then exit 22; fi
+    printf '{"status":"UP"}';;
   */version.json) printf '{"commit":"%s"}' "$MAIN_SHA";;
   *) exit 1;;
 esac
 ''',
-                'systemctl': '#!/bin/bash\nprintf "%s\\n" "$*" >> "$CALLS"\n',
+                'systemctl': '#!/bin/bash\nprintf "%s\\n" "$*" >> "$CALLS"\nif [[ "$RESTART_FAIL" == yes && "$1" == restart ]]; then exit 7; fi\n',
                 'sleep': '#!/bin/bash\nexit 0\n',
             }
             for name, body in commands.items():
@@ -54,6 +57,7 @@ esac
             if scenario == 'invalid-command':
                 command = 'deploy ' + REVISION + '; touch /tmp/never-created'
             env = dict(os.environ, PATH=str(mock) + ':' + os.environ['PATH'], CALLS=str(calls), MAIN_SHA='b' * 40 if scenario == 'stale' else REVISION, UNHEALTHY='yes' if scenario == 'unhealthy' else 'no')
+            env.update(CURRENT=str(current), RECOVER='yes' if scenario == 'recovered' else 'no', RESTART_FAIL='yes' if scenario == 'restart-failed' else 'no')
             result = subprocess.run(['bash', str(receiver), command], input=artifact, env=env, capture_output=True)
             if scenario == 'success':
                 self.assertEqual(result.returncode, 0, result.stderr.decode())
@@ -63,14 +67,19 @@ esac
             else:
                 self.assertNotEqual(result.returncode, 0)
                 self.assertEqual(current.resolve(), previous)
-                if scenario == 'unhealthy':
+                if scenario in ('unhealthy', 'recovered', 'restart-failed'):
                     self.assertEqual(calls.read_text().count('restart postcompare'), 2)
+                    expected_message = 'Previous JAR is not healthy' if scenario == 'unhealthy' else 'Previous JAR healthy'
+                    self.assertIn(expected_message, result.stderr.decode())
+                    if scenario == 'restart-failed':
+                        self.assertEqual(result.returncode, 7)
+                        self.assertIn('Rollback restart failed', result.stderr.decode())
                 else:
                     self.assertFalse(calls.exists())
             self.assertEqual(list((base / 'releases').glob('.incoming.*')), [])
 
     def test_receiver(self):
-        for scenario in ('success', 'invalid-command', 'stale', 'wrong-hash', 'wrong-metadata', 'unhealthy'):
+        for scenario in ('success', 'invalid-command', 'stale', 'wrong-hash', 'wrong-metadata', 'unhealthy', 'recovered', 'restart-failed'):
             with self.subTest(scenario=scenario):
                 self.run_receiver(scenario)
 

@@ -37,15 +37,31 @@ release="$base/releases/$(date -u +%Y%m%dT%H%M%SZ)-$revision.jar"
 [[ ! -e "$release" ]] || { echo 'Release already exists' >&2; exit 1; }
 install -m 644 "$incoming" "$release"
 rollback() {
+  local failure=$?
+  trap - ERR
   echo 'Activation failed; restoring the previous JAR' >&2
-  ln -sfn "$previous" "$base/current.jar"
-  systemctl restart postcompare
+  if ! ln -sfn "$previous" "$base/current.jar"; then
+    echo 'Rollback link restoration failed' >&2
+    return "$failure"
+  fi
+  if ! systemctl restart postcompare; then
+    echo 'Rollback restart failed' >&2
+  fi
+  for _ in $(seq 1 30); do
+    if curl --fail --silent --max-time 5 http://127.0.0.1:8080/actuator/health | grep -q '"status":"UP"'; then
+      echo 'Previous JAR healthy' >&2
+      return "$failure"
+    fi
+    sleep 2 || break
+  done
+  echo 'Previous JAR is not healthy after rollback' >&2
+  return "$failure"
 }
 trap rollback ERR
 ln -sfn "$release" "$base/current.jar"
 systemctl restart postcompare
 ready=false
-for attempt in $(seq 1 30); do
+for _ in $(seq 1 30); do
   if curl --fail --silent --max-time 5 http://127.0.0.1:8080/actuator/health | grep -q '"status":"UP"'; then
     if curl --fail --silent --max-time 5 http://127.0.0.1:8080/version.json | python3 -c 'import json,sys; assert json.load(sys.stdin)["commit"] == sys.argv[1]' "$revision"; then
       ready=true
@@ -59,4 +75,3 @@ curl --fail --silent --max-time 10 -H 'Host: 91.134.138.53' http://127.0.0.1/ver
 systemctl is-active postcompare nginx
 trap - ERR
 printf 'Deployed %s SHA256 %s (previous: %s)\n' "$revision" "$actual" "$previous"
-
