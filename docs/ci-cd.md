@@ -26,7 +26,7 @@ Le compte CI détient la capacité de publier le code applicatif. Les modificati
 
 En cas de panne réseau temporaire, relancer le workflow depuis GitHub Actions sur `main` avec **Run workflow**. Un ancien run ne doit pas déployer une ancienne révision par-dessus la nouvelle. Le durcissement SSH/UFW ne fait jamais partie d'un déploiement applicatif.
 
-Les runners standards GitHub sont gratuits pour un dépôt public. Les artefacts ont une rétention d'un jour pour limiter le stockage ; aucun runner payant ni achat CodeRabbit n'est configuré.
+Les runners standards GitHub sont gratuits pour un dépôt public. Les JAR ont une rétention d'un jour et les rapports E2E de sept jours pour limiter le stockage ; aucun runner payant ni achat CodeRabbit n'est configuré.
 
 ## Réutiliser pour un autre dépôt
 

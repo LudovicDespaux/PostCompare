@@ -6,3 +6,6 @@ target/
 *.log
 *.tsbuildinfo
 .vite/
+
+playwright-report/
+test-results/

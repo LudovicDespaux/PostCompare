@@ -20,6 +20,9 @@ on:
       artifact-name:
         type: string
         default: release
+      test-report-path:
+        type: string
+        default: ''
 permissions:
   contents: read
 jobs:
@@ -44,6 +47,13 @@ jobs:
         env:
           BUILD_COMMAND: ${{ inputs.command }}
         run: bash -euo pipefail -c "$BUILD_COMMAND"
+      - name: Save test report
+        if: always() && inputs.test-report-path != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: e2e-report
+          path: ${{ inputs.test-report-path }}
+          retention-days: 7
       - name: Save tested release
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
