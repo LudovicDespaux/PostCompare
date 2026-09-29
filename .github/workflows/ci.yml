@@ -16,6 +16,7 @@ jobs:
       java-version: '17'
       npm-lock: frontend/package-lock.json
       artifact-path: backend/target/postcompare-0.1.0.jar
+      test-report-path: frontend/playwright-report
       command: |
         cd frontend
         npm ci
@@ -24,6 +25,10 @@ jobs:
         node scripts/write-build-info.cjs
         cd backend
         mvn -B -ntp clean verify
+        cd ..
+        cd frontend
+        npx playwright install --with-deps chromium
+        npm run test:e2e
         cd ..
         for script in deploy/*.sh; do bash -n "$script"; done
         python3 deploy/test-hardening.py

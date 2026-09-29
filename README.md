@@ -4,6 +4,10 @@ Comparateur de courrier en français : affranchissement à déposer soi-même, t
 
 ## État de cette mise à jour
 
+360 parcours E2E Chromium vérifient le formulaire, les résultats et six grilles de tarifs La Poste / Postes Canada relevées séparément sur leurs sites officiels le 29 septembre 2026. Ils utilisent le vrai serveur Java et bloquent la livraison en CI en cas d'échec. Voir [les tests et leurs limites](docs/testing.md).
+
+La [préparation Cloudflare pour les sites du VPS](docs/cloudflare.md) fournit un modèle de service de tunnel et les étapes de migration. La protection n'est pas encore activée : un compte Cloudflare et un domaine sont nécessaires, puis les routes et la fermeture de l'accès web direct doivent être validées.
+
 Les quatre fournisseurs fictifs du prototype ont été remplacés par un **catalogue statique de tarifs publiés**, avec sources et dates. Les résultats restent des **estimations**, pas des devis obtenus en temps réel. Une source renseignée ne garantit pas que le prix est encore applicable à une adresse, un format ou une option précise.
 
 - 39 opérateurs postaux dans 39 pays, plus DHL Express au départ de France.
